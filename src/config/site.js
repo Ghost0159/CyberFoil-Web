@@ -50,7 +50,7 @@ export const NAV_TRAILING = [
   { id: 'credits', href: 'credits.html', label: 'Credits' },
 ];
 
-/** @deprecated Use NAV_GROUPS — kept for any external import */
+/** @deprecated Use NAV_GROUPS; kept for any external import */
 export const NAV = [
   ...NAV_LEADING,
   ...NAV_GROUPS.flatMap((g) => g.items),

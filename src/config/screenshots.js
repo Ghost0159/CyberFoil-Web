@@ -9,5 +9,5 @@ export const SCREENSHOTS = readdirSync(dir)
   .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
   .map((name, index) => ({
     src: `/screenshots/${name}`,
-    alt: `CyberFoil on Nintendo Switch — screenshot ${index + 1}`,
+    alt: `CyberFoil on Nintendo Switch, screenshot ${index + 1}`,
   }));
