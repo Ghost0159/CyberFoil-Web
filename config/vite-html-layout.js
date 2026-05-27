@@ -2,7 +2,9 @@ import { readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { THEME_STORAGE_KEY } from '../src/config/site.js';
+import { pathFromPageFile, isNoindexFile } from '../src/config/pages-seo.js';
 import { renderDesktopNav, renderMobileNav } from './nav-render.js';
+import { renderJsonLd, renderSeoHead } from './seo.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const layout = readFileSync(resolve(root, 'src/components/layout.html'), 'utf8');
@@ -43,10 +45,17 @@ function applyLayout(html, filename) {
 
   const { meta, body } = parsePageMeta(html);
   const activeNav = meta.nav || '';
+  const title = meta.title || 'CyberFoil';
+  const description = meta.description || SITE_FALLBACK_DESC;
+  const path = pathFromPageFile(filename);
+  const noindex = isNoindexFile(filename);
+
+  const seoHead = `${renderSeoHead({ title, description, path, noindex })}\n    ${renderJsonLd({ title, description, path })}`;
 
   return layout
-    .replaceAll('{{title}}', meta.title || 'CyberFoil')
-    .replaceAll('{{description}}', meta.description || SITE_FALLBACK_DESC)
+    .replaceAll('{{title}}', title)
+    .replaceAll('{{description}}', description)
+    .replaceAll('{{seoHead}}', seoHead)
     .replaceAll('{{headExtra}}', headExtraForPage(filename))
     .replaceAll('{{navDesktop}}', renderDesktopNav(activeNav))
     .replaceAll('{{navMobile}}', renderMobileNav(activeNav))

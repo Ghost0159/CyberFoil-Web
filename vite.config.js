@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 import { htmlLayout } from './config/vite-html-layout.js';
 import { flattenPagesOut } from './config/vite-flatten-pages.js';
 import { devPageRoutes } from './config/vite-dev-routes.js';
+import { viteSeo } from './config/vite-seo.js';
 
 const pagesDir = resolve(__dirname, 'src/pages');
 
@@ -19,7 +20,7 @@ const pages = {
 };
 
 export default defineConfig({
-  plugins: [htmlLayout(), devPageRoutes(), flattenPagesOut()],
+  plugins: [htmlLayout(), devPageRoutes(), flattenPagesOut(), viteSeo()],
   publicDir: resolve(__dirname, 'src/assets'),
   base: '/',
   build: {
