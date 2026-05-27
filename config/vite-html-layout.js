@@ -5,6 +5,7 @@ import { THEME_STORAGE_KEY } from '../src/config/site.js';
 import { pathFromPageFile, isNoindexFile } from '../src/config/pages-seo.js';
 import { renderDesktopNav, renderMobileNav } from './nav-render.js';
 import { renderJsonLd, renderSeoHead } from './seo.js';
+import { renderHomeCarousel } from './home-carousel.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const layout = readFileSync(resolve(root, 'src/components/layout.html'), 'utf8');
@@ -51,6 +52,8 @@ function applyLayout(html, filename) {
   const noindex = isNoindexFile(filename);
 
   const seoHead = `${renderSeoHead({ title, description, path, noindex })}\n    ${renderJsonLd({ title, description, path })}`;
+  const carousel = filename.includes('index.html') ? renderHomeCarousel() : '';
+  const content = body.replaceAll('{{carousel}}', carousel);
 
   return layout
     .replaceAll('{{title}}', title)
@@ -59,7 +62,7 @@ function applyLayout(html, filename) {
     .replaceAll('{{headExtra}}', headExtraForPage(filename))
     .replaceAll('{{navDesktop}}', renderDesktopNav(activeNav))
     .replaceAll('{{navMobile}}', renderMobileNav(activeNav))
-    .replaceAll('{{content}}', body)
+    .replaceAll('{{content}}', content)
     .replaceAll('{{themeInit}}', themeInit.replaceAll('{{storageKey}}', THEME_STORAGE_KEY));
 }
 
