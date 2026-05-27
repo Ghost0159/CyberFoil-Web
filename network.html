@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="CyberFoil connection modes, URL types, and HTTP download behaviour." />
+    <link rel="icon" type="image/jpeg" href="/icon.jpg" />
+    <title>Network & Download - CyberFoil</title>
+    
+    <script>
+  (function () {
+    var k = 'cyberfoil-theme';
+    var s = localStorage.getItem(k);
+    var t = s === 'light' || s === 'dark' ? s : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+
+    <script type="module" crossorigin src="/assets/main-CqX8DL8N.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/main-BcDNbeNf.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" data-header>
+      <div class="header-row">
+        <a class="brand" href="index.html" aria-label="CyberFoil home">
+          <img src="/logo.png" alt="CyberFoil" width="480" height="93" />
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a class="nav-link" href="index.html">Home</a>
+        <details class="nav-dropdown">
+          <summary class="nav-dropdown-trigger">Start</summary>
+          <div class="nav-dropdown-panel">
+            <a class="nav-dropdown-link" href="features.html">Features</a>
+            <a class="nav-dropdown-link" href="guide.html">Guide</a>
+          </div>
+        </details>
+        <details class="nav-dropdown">
+          <summary class="nav-dropdown-trigger is-active">Reference</summary>
+          <div class="nav-dropdown-panel">
+            <a class="nav-dropdown-link" href="docs.html">Docs</a>
+            <a class="nav-dropdown-link" href="shop.html">Shop API</a>
+            <a class="nav-dropdown-link" href="network.html" aria-current="page">Network</a>
+            <a class="nav-dropdown-link" href="install.html">Install</a>
+          </div>
+        </details>
+        <a class="nav-link" href="credits.html">Credits</a>
+        </nav>
+        <div class="header-tools">
+          <button type="button" class="theme-btn" id="theme-toggle" aria-label="Toggle theme">
+            <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg>
+            <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+          <a class="btn-dl" href="https://github.com/luketanti/CyberFoil/releases/latest" target="_blank" rel="noopener">Download</a>
+          <button type="button" class="menu-btn" id="nav-toggle" aria-expanded="false" aria-controls="mobile-nav">
+            <span class="sr-only">Menu</span><span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+      <nav class="mobile-nav" id="mobile-nav" hidden>
+        <a class="mobile-nav-link" href="index.html">Home</a>
+        <div class="mobile-nav-group">
+          <p class="mobile-nav-label">Start</p>
+          <a class="mobile-nav-link" href="features.html">Features</a>
+          <a class="mobile-nav-link" href="guide.html">Guide</a>
+        </div>
+        <div class="mobile-nav-group">
+          <p class="mobile-nav-label">Reference</p>
+          <a class="mobile-nav-link" href="docs.html">Docs</a>
+          <a class="mobile-nav-link" href="shop.html">Shop API</a>
+          <a class="mobile-nav-link" href="network.html" aria-current="page">Network</a>
+          <a class="mobile-nav-link" href="install.html">Install</a>
+        </div>
+        <div class="mobile-nav-group mobile-nav-group--trailing">
+          <a class="mobile-nav-link mobile-nav-link--trailing" href="credits.html">Credits</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main" class="page">
+      <div class="wrap wrap--doc">
+        <header class="page-head">
+          <h1>Network &amp; download</h1>
+          <p>How CyberFoil moves bytes from a source to the installer. NSP/XCI parsing: <a href="install.html">Install pipeline</a>. Shop HTTP API: <a href="shop.html">Shop</a>.</p>
+        </header>
+
+        <nav class="doc-toc" aria-label="On this page">
+          <a href="#modes">Connection modes</a>
+          <a href="#urls">URL types</a>
+          <a href="#http">HTTP download</a>
+          <a href="#lan">LAN protocol</a>
+          <a href="#usb">USB protocol</a>
+          <a href="#local">Local &amp; MTP</a>
+        </nav>
+
+        <section class="doc-section" id="modes">
+          <h2>Connection modes</h2>
+          <div class="table-wrap">
+            <table class="doc-table">
+              <thead>
+                <tr><th>UI source</th><th>Transport</th><th>Reader</th><th>Source</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>LAN install</td><td>TCP :2000 then HTTP range</td><td><code>HTTPNSP</code> / <code>HTTPXCI</code></td><td><code>netInstall.cpp</code></td></tr>
+                <tr><td>URL / Google Drive</td><td>HTTP(S) range</td><td><code>HTTPNSP</code> / <code>HTTPXCI</code></td><td><code>netInstPage.cpp</code></td></tr>
+                <tr><td>eShop</td><td>HTTP(S) + shop auth</td><td><code>HTTPNSP</code> / shop XCI stream</td><td><code>shopInstall.cpp</code></td></tr>
+                <tr><td>SD card</td><td>Local file</td><td><code>SDMCNSP</code> / <code>SDMCXCI</code></td><td><code>sdInstall.cpp</code></td></tr>
+                <tr><td>USB HDD</td><td>USB volume file</td><td><code>SDMCNSP</code> / <code>SDMCXCI</code></td><td><code>hddInstall.cpp</code></td></tr>
+                <tr><td>NS-USBloader</td><td>USB bulk TUC0/TUL0</td><td><code>USBNSP</code> / <code>USBXCI</code></td><td><code>usbInstall.cpp</code></td></tr>
+                <tr><td>MTP</td><td>Push to <code>install/</code></td><td><code>MtpNspStream</code></td><td><code>mtp_install.cpp</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="source-ref">Target storage: <code>0</code> = SD (<code>NcmStorageId_SdCard</code>), else internal (<code>NcmStorageId_BuiltInUser</code>).</p>
+        </section>
+
+        <section class="doc-section" id="urls">
+          <h2>URL &amp; path types</h2>
+          <div class="table-wrap">
+            <table class="doc-table">
+              <thead><tr><th>Kind</th><th>Example</th><th>Handling</th></tr></thead>
+              <tbody>
+                <tr><td>HTTP(S) direct</td><td><code>https://host/a.nsp</code></td><td>curl Range, expect 206</td></tr>
+                <tr><td>Name fragment</td><td><code>url#Display%20Name</code></td><td>Fragment = label only</td></tr>
+                <tr><td>Google Drive</td><td>File ID (keyboard)</td><td><code>drive/v3/files/{id}?key=…&amp;alt=media</code></td></tr>
+                <tr><td>Shop relative</td><td><code>/files/x.nsp</code></td><td>Joined to shop base URL</td></tr>
+                <tr><td>JBOD</td><td><code>jbod:{chunk}/{url}/…</code></td><td>Virtual multi-URL file</td></tr>
+                <tr><td>Local path</td><td>SD / USB filesystem</td><td>No HTTP</td></tr>
+                <tr><td>LAN list</td><td>URLs over TCP :2000</td><td>Newline-separated</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="source-ref"><code>network_util.cpp</code>, <code>util/util.cpp</code>, <code>shopInstall.cpp</code></p>
+        </section>
+
+        <section class="doc-section" id="http">
+          <h2>HTTP streaming download</h2>
+          <p>Remote installs stream into NCM placeholders - the full file is not saved to SD first.</p>
+          <ul>
+            <li><code>Range: offset-(offset+size-1)</code> → HTTP <strong>206</strong></li>
+            <li><code>Accept-Encoding: identity</code></li>
+            <li>3 retries / segment, 2 s delay; user retry dialog after exhaustion</li>
+            <li>NSP vs XCI: bytes 0x100-0x103 == <code>HEAD</code> → XCI, else NSP</li>
+          </ul>
+          <p>Install requests may add Tinfoil headers (<code>Theme</code>, <code>UID</code>, <code>HAUTH</code>, <code>UAUTH</code>, …) plus HTTP Basic when configured.</p>
+          <p class="source-ref"><code>network_util.cpp</code>, <code>curl.cpp</code>, <code>netInstall.cpp</code></p>
+        </section>
+
+        <section class="doc-section" id="lan">
+          <h2>LAN protocol - port 2000</h2>
+          <ol class="doc-list">
+            <li>Client → <code>&lt;switch-ip&gt;:2000</code></li>
+            <li>Receive <code>u32</code> size, then payload (newline-separated URLs, max ~262 KB)</li>
+            <li>Each URL installed via HTTP range</li>
+            <li>Done: 1-byte <code>0x00</code> ack + HTTP DROP to host</li>
+          </ol>
+          <p><kbd>Y</kbd> on net screen: manual URL or Google Drive ID.</p>
+          <p class="source-ref"><code>netInstall.cpp</code> - <code>REMOTE_INSTALL_PORT = 2000</code></p>
+        </section>
+
+        <section class="doc-section" id="usb">
+          <h2>USB protocol</h2>
+          <p><strong>TUL0</strong> - title list (magic 0x304C5554). <strong>TUC0</strong> - file range commands, 8 MB bulk reads.</p>
+          <p>XCI if title name ends with <code>xc</code>.</p>
+          <p class="source-ref"><code>usb_util.cpp</code>, <code>usbInstall.cpp</code></p>
+        </section>
+
+        <section class="doc-section" id="local">
+          <h2>Local &amp; MTP</h2>
+          <p>Extensions <code>.nsp .nsz .xci .xcz</code>. SD/HDD: 4 MB sequential reads. MTP: incremental parse on upload to <code>install/</code>.</p>
+          <p class="source-ref"><code>sdInstall.cpp</code>, <code>mtp_install.cpp</code></p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-row">
+        <span>CyberFoil · luketanti</span>
+        <div>
+          <a href="https://github.com/luketanti/CyberFoil" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://github.com/luketanti/CyberFoil/releases" target="_blank" rel="noopener">Releases</a>
+        </div>
+      </div>
+    </footer>
+
+  </body>
+</html>

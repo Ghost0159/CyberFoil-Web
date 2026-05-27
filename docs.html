@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="CyberFoil configuration, file paths, network install, and supported formats." />
+    <link rel="icon" type="image/jpeg" href="/icon.jpg" />
+    <title>Docs - CyberFoil</title>
+    
+    <script>
+  (function () {
+    var k = 'cyberfoil-theme';
+    var s = localStorage.getItem(k);
+    var t = s === 'light' || s === 'dark' ? s : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+
+    <script type="module" crossorigin src="/assets/main-CqX8DL8N.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/main-BcDNbeNf.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" data-header>
+      <div class="header-row">
+        <a class="brand" href="index.html" aria-label="CyberFoil home">
+          <img src="/logo.png" alt="CyberFoil" width="480" height="93" />
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a class="nav-link" href="index.html">Home</a>
+        <details class="nav-dropdown">
+          <summary class="nav-dropdown-trigger">Start</summary>
+          <div class="nav-dropdown-panel">
+            <a class="nav-dropdown-link" href="features.html">Features</a>
+            <a class="nav-dropdown-link" href="guide.html">Guide</a>
+          </div>
+        </details>
+        <details class="nav-dropdown">
+          <summary class="nav-dropdown-trigger is-active">Reference</summary>
+          <div class="nav-dropdown-panel">
+            <a class="nav-dropdown-link" href="docs.html" aria-current="page">Docs</a>
+            <a class="nav-dropdown-link" href="shop.html">Shop API</a>
+            <a class="nav-dropdown-link" href="network.html">Network</a>
+            <a class="nav-dropdown-link" href="install.html">Install</a>
+          </div>
+        </details>
+        <a class="nav-link" href="credits.html">Credits</a>
+        </nav>
+        <div class="header-tools">
+          <button type="button" class="theme-btn" id="theme-toggle" aria-label="Toggle theme">
+            <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg>
+            <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+          <a class="btn-dl" href="https://github.com/luketanti/CyberFoil/releases/latest" target="_blank" rel="noopener">Download</a>
+          <button type="button" class="menu-btn" id="nav-toggle" aria-expanded="false" aria-controls="mobile-nav">
+            <span class="sr-only">Menu</span><span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+      <nav class="mobile-nav" id="mobile-nav" hidden>
+        <a class="mobile-nav-link" href="index.html">Home</a>
+        <div class="mobile-nav-group">
+          <p class="mobile-nav-label">Start</p>
+          <a class="mobile-nav-link" href="features.html">Features</a>
+          <a class="mobile-nav-link" href="guide.html">Guide</a>
+        </div>
+        <div class="mobile-nav-group">
+          <p class="mobile-nav-label">Reference</p>
+          <a class="mobile-nav-link" href="docs.html" aria-current="page">Docs</a>
+          <a class="mobile-nav-link" href="shop.html">Shop API</a>
+          <a class="mobile-nav-link" href="network.html">Network</a>
+          <a class="mobile-nav-link" href="install.html">Install</a>
+        </div>
+        <div class="mobile-nav-group mobile-nav-group--trailing">
+          <a class="mobile-nav-link mobile-nav-link--trailing" href="credits.html">Credits</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main" class="page">
+      <div class="wrap wrap--doc">
+        <header class="page-head">
+          <h1>Documentation</h1>
+          <p>Client-side paths, config, and install behaviour. Shop server API is on the <a href="shop.html">Shop</a> page.</p>
+          <p class="doc-muted">Deep dives: <a href="network.html">Network &amp; download</a> · <a href="install.html">Install pipeline</a> · <a href="shop.html">Shop API</a></p>
+        </header>
+
+        <section class="doc-section" id="formats">
+          <h2>Supported formats</h2>
+          <ul>
+            <li><code>NSP</code> / <code>NSZ</code> - Nintendo Submission Package (compressed)</li>
+            <li><code>XCI</code> / <code>XCZ</code> - cartridge image (compressed)</li>
+          </ul>
+          <p>File extension is ignored for network installs - only content matters.</p>
+        </section>
+
+        <section class="doc-section" id="sd-layout">
+          <h2>SD card layout</h2>
+          <pre><code>sdmc:/switch/CyberFoil/
+├── cyberfoil.nro
+├── config.json              optional
+├── shops/                   shop profiles (*.json)
+├── shop_icons/              cached shop icons
+├── offline_db/              local title DB + icons
+│   └── offline_db_manifest.json
+├── bark.wav / success.wav   optional sounds
+└── offline_db_update.log    update trace log</code></pre>
+        </section>
+
+        <section class="doc-section" id="config">
+          <h2>config.json</h2>
+          <p>Written by Settings. Path: <code>sdmc:/switch/CyberFoil/config.json</code></p>
+          <div class="table-wrap">
+            <table class="doc-table">
+              <thead><tr><th>Key</th><th>Type</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>shopUrl</code></td><td>string</td><td>Active shop base URL</td></tr>
+                <tr><td><code>shopUser</code> / <code>shopPass</code></td><td>string</td><td>HTTP Basic auth for shop</td></tr>
+                <tr><td><code>httpUserAgentMode</code></td><td>string</td><td><code>default</code>, <code>chrome</code>, <code>safari</code>, <code>firefox</code>, <code>tinfoil</code>, <code>custom</code></td></tr>
+                <tr><td><code>httpUserAgent</code></td><td>string</td><td>Custom UA when mode is <code>custom</code></td></tr>
+                <tr><td><code>shopHideInstalled</code></td><td>bool</td><td>Filter installed titles in shop</td></tr>
+                <tr><td><code>shopHideInstalledSection</code></td><td>bool</td><td>Hide Installed section</td></tr>
+                <tr><td><code>shopAllBaseOnly</code></td><td>bool</td><td>All section: bases only</td></tr>
+                <tr><td><code>shopLegacyMode</code></td><td>bool</td><td>Tinfoil compatibility</td></tr>
+                <tr><td><code>shopStartGridMode</code></td><td>bool</td><td>Shop opens in grid view</td></tr>
+                <tr><td><code>lastNetUrl</code></td><td>string</td><td>Last URL used for net install</td></tr>
+                <tr><td><code>offlineDbManifestUrl</code></td><td>string</td><td>Manifest for offline DB updates</td></tr>
+                <tr><td><code>offlineDbAutoCheckOnStartup</code></td><td>bool</td><td>Check DB on launch when online</td></tr>
+                <tr><td><code>autoUpdate</code></td><td>bool</td><td>Check for CyberFoil updates</td></tr>
+                <tr><td><code>validateNCAs</code></td><td>bool</td><td>Verify NCA signatures before install</td></tr>
+                <tr><td><code>ignoreReqVers</code></td><td>bool</td><td>Ignore minimum firmware in titles</td></tr>
+                <tr><td><code>overClock</code></td><td>bool</td><td>Boost CPU during installs</td></tr>
+                <tr><td><code>deletePrompt</code></td><td>bool</td><td>Ask to delete source files after install</td></tr>
+                <tr><td><code>languageSetting</code></td><td>int</td><td>UI language index (99 = system)</td></tr>
+                <tr><td><code>soundEnabled</code> / <code>oledMode</code></td><td>bool</td><td>UI preferences</td></tr>
+                <tr><td><code>mtpExposeAlbum</code></td><td>bool</td><td>Show Album drive in MTP mode</td></tr>
+                <tr><td><code>usbAck</code></td><td>bool</td><td>USB install warning acknowledged</td></tr>
+                <tr><td><code>verboseInstallLogging</code></td><td>bool</td><td>Extra install diagnostics</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="doc-section" id="network">
+          <h2>Network install (LAN)</h2>
+          <p>Separate from the HTTP shop API. CyberFoil listens on <strong>TCP port 2000</strong> while the net install screen is open.</p>
+          <ol class="doc-list">
+            <li>Launch <em>Install over LAN or internet</em> - your Switch IP is shown.</li>
+            <li>On PC/phone, use NS-USBloader (Tinfoil mode) or similar: target that IP, send file list.</li>
+            <li>Alternatively pick URL or Google Drive file ID from the menu.</li>
+          </ol>
+          <p>Downloads use the configured User-Agent (<code>cyberfoil</code> by default), not the empty UA from legacy shop mode.</p>
+        </section>
+
+        <section class="doc-section" id="offline-db">
+          <h2>Offline database</h2>
+          <p>
+            Title names and icons under <code>offline_db/</code> - used when shop/network metadata is unavailable.
+            Default manifest: <a href="https://github.com/luketanti/CyberFoil-DB" target="_blank" rel="noopener">CyberFoil-DB</a> releases.
+            Supports packed or JSON layouts (<code>titles.pack</code>, <code>icons.pack</code>, index files, etc.).
+          </p>
+        </section>
+
+        <section class="doc-section" id="network-ref">
+          <h2>Network &amp; install (see also)</h2>
+          <ul>
+            <li><a href="network.html">Connection modes</a> - LAN :2000, HTTP range, USB TUC0, URL types, Google Drive, JBOD</li>
+            <li><a href="install.html">Install pipeline</a> - PFS0/HFS0, NCM placeholders, NCZ/ZSTD, NCA verify</li>
+            <li><a href="shop.html">Shop API</a> - catalog endpoints, save sync, Tinfoil legacy</li>
+          </ul>
+        </section>
+
+        <section class="doc-section" id="build">
+          <h2>Build &amp; stack</h2>
+          <ul>
+            <li>Binary: <code>cyberfoil.nro</code> → release zip <code>switch/CyberFoil/cyberfoil.nro</code></li>
+            <li>Version: <code>1.4.4</code> · Author: luketanti · License: GPL-3.0</li>
+            <li>UI: <a href="https://github.com/XorTroll/Plutonium" target="_blank" rel="noopener">Plutonium</a></li>
+            <li>MTP: libhaze · USB FS: libusbhsfs (FAT/NTFS/EXT)</li>
+            <li>Lineage: Awoo Installer → Sphaira → CyberFoil</li>
+          </ul>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-row">
+        <span>CyberFoil · luketanti</span>
+        <div>
+          <a href="https://github.com/luketanti/CyberFoil" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://github.com/luketanti/CyberFoil/releases" target="_blank" rel="noopener">Releases</a>
+        </div>
+      </div>
+    </footer>
+
+  </body>
+</html>

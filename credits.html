@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="CyberFoil credits and acknowledgements." />
+    <link rel="icon" type="image/jpeg" href="/icon.jpg" />
+    <title>Credits - CyberFoil</title>
+    
+    <script>
+  (function () {
+    var k = 'cyberfoil-theme';
+    var s = localStorage.getItem(k);
+    var t = s === 'light' || s === 'dark' ? s : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+
+    <script type="module" crossorigin src="/assets/main-CqX8DL8N.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/main-BcDNbeNf.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" data-header>
+      <div class="header-row">
+        <a class="brand" href="index.html" aria-label="CyberFoil home">
+          <img src="/logo.png" alt="CyberFoil" width="480" height="93" />
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a class="nav-link" href="index.html">Home</a>
+        <details class="nav-dropdown">
+          <summary class="nav-dropdown-trigger">Start</summary>
+          <div class="nav-dropdown-panel">
+            <a class="nav-dropdown-link" href="features.html">Features</a>
+            <a class="nav-dropdown-link" href="guide.html">Guide</a>
+          </div>
+        </details>
+        <details class="nav-dropdown">
+          <summary class="nav-dropdown-trigger">Reference</summary>
+          <div class="nav-dropdown-panel">
+            <a class="nav-dropdown-link" href="docs.html">Docs</a>
+            <a class="nav-dropdown-link" href="shop.html">Shop API</a>
+            <a class="nav-dropdown-link" href="network.html">Network</a>
+            <a class="nav-dropdown-link" href="install.html">Install</a>
+          </div>
+        </details>
+        <a class="nav-link" href="credits.html" aria-current="page">Credits</a>
+        </nav>
+        <div class="header-tools">
+          <button type="button" class="theme-btn" id="theme-toggle" aria-label="Toggle theme">
+            <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg>
+            <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+          <a class="btn-dl" href="https://github.com/luketanti/CyberFoil/releases/latest" target="_blank" rel="noopener">Download</a>
+          <button type="button" class="menu-btn" id="nav-toggle" aria-expanded="false" aria-controls="mobile-nav">
+            <span class="sr-only">Menu</span><span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+      <nav class="mobile-nav" id="mobile-nav" hidden>
+        <a class="mobile-nav-link" href="index.html">Home</a>
+        <div class="mobile-nav-group">
+          <p class="mobile-nav-label">Start</p>
+          <a class="mobile-nav-link" href="features.html">Features</a>
+          <a class="mobile-nav-link" href="guide.html">Guide</a>
+        </div>
+        <div class="mobile-nav-group">
+          <p class="mobile-nav-label">Reference</p>
+          <a class="mobile-nav-link" href="docs.html">Docs</a>
+          <a class="mobile-nav-link" href="shop.html">Shop API</a>
+          <a class="mobile-nav-link" href="network.html">Network</a>
+          <a class="mobile-nav-link" href="install.html">Install</a>
+        </div>
+        <div class="mobile-nav-group mobile-nav-group--trailing">
+          <a class="mobile-nav-link mobile-nav-link--trailing" href="credits.html" aria-current="page">Credits</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main" class="page">
+  <div class="wrap wrap--narrow">
+    <header class="page-head">
+      <h1>Credits</h1>
+      <p>Taken from the in-app credits screen. CyberFoil wouldn't exist without these projects and people.</p>
+    </header>
+
+    <ul class="credit-grid">
+      <li><strong>Huntereb</strong> - Awoo Installer</li>
+      <li><strong>ITotalJustice</strong> - Sphaira</li>
+      <li><strong>XorTroll</strong> - Plutonium</li>
+      <li><strong>Atmosphere Team</strong> - libhaze</li>
+      <li><strong>DarkMatterCore</strong> - libusbhsfs</li>
+      <li><strong>Adubbz</strong> - Tinfoil (MIT portions)</li>
+      <li><strong>Homebrew community</strong></li>
+      <li><strong>You</strong></li>
+    </ul>
+
+    <p class="license-note">
+      CyberFoil by <a href="https://github.com/luketanti" target="_blank" rel="noopener">luketanti</a>.
+      <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0</a>.
+    </p>
+  </div>
+</main>
+
+    <footer class="site-footer">
+      <div class="footer-row">
+        <span>CyberFoil · luketanti</span>
+        <div>
+          <a href="https://github.com/luketanti/CyberFoil" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://github.com/luketanti/CyberFoil/releases" target="_blank" rel="noopener">Releases</a>
+        </div>
+      </div>
+    </footer>
+
+  </body>
+</html>

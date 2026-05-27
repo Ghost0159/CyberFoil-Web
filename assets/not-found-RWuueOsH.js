@@ -1,0 +1,1 @@
+function o(){return new URL("index.html","/").href}function i(){const n=document.getElementById("countdown");let t=10;const e=()=>{if(n&&(n.textContent=String(t)),t<=0){window.location.replace(o());return}t-=1,window.setTimeout(e,1e3)};e()}export{i as initNotFoundRedirect};

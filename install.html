@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="How CyberFoil installs NSP, NSZ, XCI, XCZ - PFS0, HFS0, NCM, NCZ decompression." />
+    <link rel="icon" type="image/jpeg" href="/icon.jpg" />
+    <title>Install Pipeline - CyberFoil</title>
+    
+    <script>
+  (function () {
+    var k = 'cyberfoil-theme';
+    var s = localStorage.getItem(k);
+    var t = s === 'light' || s === 'dark' ? s : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+
+    <script type="module" crossorigin src="/assets/main-CqX8DL8N.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/main-BcDNbeNf.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" data-header>
+      <div class="header-row">
+        <a class="brand" href="index.html" aria-label="CyberFoil home">
+          <img src="/logo.png" alt="CyberFoil" width="480" height="93" />
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a class="nav-link" href="index.html">Home</a>
+        <details class="nav-dropdown">
+          <summary class="nav-dropdown-trigger">Start</summary>
+          <div class="nav-dropdown-panel">
+            <a class="nav-dropdown-link" href="features.html">Features</a>
+            <a class="nav-dropdown-link" href="guide.html">Guide</a>
+          </div>
+        </details>
+        <details class="nav-dropdown">
+          <summary class="nav-dropdown-trigger is-active">Reference</summary>
+          <div class="nav-dropdown-panel">
+            <a class="nav-dropdown-link" href="docs.html">Docs</a>
+            <a class="nav-dropdown-link" href="shop.html">Shop API</a>
+            <a class="nav-dropdown-link" href="network.html">Network</a>
+            <a class="nav-dropdown-link" href="install.html" aria-current="page">Install</a>
+          </div>
+        </details>
+        <a class="nav-link" href="credits.html">Credits</a>
+        </nav>
+        <div class="header-tools">
+          <button type="button" class="theme-btn" id="theme-toggle" aria-label="Toggle theme">
+            <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg>
+            <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+          <a class="btn-dl" href="https://github.com/luketanti/CyberFoil/releases/latest" target="_blank" rel="noopener">Download</a>
+          <button type="button" class="menu-btn" id="nav-toggle" aria-expanded="false" aria-controls="mobile-nav">
+            <span class="sr-only">Menu</span><span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+      <nav class="mobile-nav" id="mobile-nav" hidden>
+        <a class="mobile-nav-link" href="index.html">Home</a>
+        <div class="mobile-nav-group">
+          <p class="mobile-nav-label">Start</p>
+          <a class="mobile-nav-link" href="features.html">Features</a>
+          <a class="mobile-nav-link" href="guide.html">Guide</a>
+        </div>
+        <div class="mobile-nav-group">
+          <p class="mobile-nav-label">Reference</p>
+          <a class="mobile-nav-link" href="docs.html">Docs</a>
+          <a class="mobile-nav-link" href="shop.html">Shop API</a>
+          <a class="mobile-nav-link" href="network.html">Network</a>
+          <a class="mobile-nav-link" href="install.html" aria-current="page">Install</a>
+        </div>
+        <div class="mobile-nav-group mobile-nav-group--trailing">
+          <a class="mobile-nav-link mobile-nav-link--trailing" href="credits.html">Credits</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main" class="page">
+      <div class="wrap wrap--doc">
+        <header class="page-head">
+          <h1>Install pipeline</h1>
+          <p>What happens after CyberFoil has a byte stream - container parse, NCA write, tickets, metadata. Transport details: <a href="network.html">Network</a>.</p>
+        </header>
+
+        <nav class="doc-toc" aria-label="On this page">
+          <a href="#overview">Overview</a>
+          <a href="#nsp">NSP / NSZ</a>
+          <a href="#xci">XCI / XCZ</a>
+          <a href="#ncz">NCZ compression</a>
+          <a href="#ncm">NCM placeholders</a>
+          <a href="#verify">NCA verify</a>
+          <a href="#shop-xci">Shop XCI stream</a>
+        </nav>
+
+        <section class="doc-section" id="overview">
+          <h2>Overview</h2>
+          <p>All sources converge on the same install orchestrator (<code>install.cpp</code>):</p>
+          <ol class="doc-list">
+            <li><strong>Prepare</strong> - read CNMT NCAs, install content meta to NCM DB, push application record to NS</li>
+            <li><strong>Begin</strong> - import tickets/certs via ES, stream each content NCA into storage</li>
+          </ol>
+          <p><code>.nsz</code> / <code>.xcz</code> are not decompressed as whole files - they use the same PFS0/HFS0 layout with <code>.ncz</code> entries instead of <code>.nca</code>.</p>
+          <p class="source-ref"><code>install.cpp</code>, <code>install_nsp.cpp</code>, <code>install_xci.cpp</code></p>
+        </section>
+
+        <section class="doc-section" id="nsp">
+          <h2>NSP / NSZ - PFS0 container</h2>
+          <ul>
+            <li>Magic <code>PFS0</code> (0x30534650)</li>
+            <li>File table: <code>PFS0BaseHeader</code> + entries + string table</li>
+            <li>NCA entries: <code>{id}.nca</code>, <code>{id}.cnmt.nca</code>, <code>{id}.ncz</code>, <code>{id}.cnmt.ncz</code></li>
+            <li>Ticket pairs: <code>.tik</code> + <code>.cert</code> → <code>esImportTicket</code></li>
+          </ul>
+          <h3>Streaming (HTTP / USB)</h3>
+          <p>Dual-thread pipeline in <code>http_nsp.cpp</code> / <code>usb_nsp.cpp</code>:</p>
+          <ul>
+            <li>Thread 1: HTTP/USB range read → <code>BufferedPlaceholderWriter</code></li>
+            <li>Thread 2: flush 8 MB segments → <code>NcaWriter</code> → NCM placeholder</li>
+            <li>Ring buffer: 8 MB × 128 segments (2 in applet mode)</li>
+          </ul>
+          <h3>Per-NCA steps (<code>NSPInstall::InstallNCA</code>)</h3>
+          <ol class="doc-list">
+            <li>Delete stale placeholder</li>
+            <li>Optional RSA-PSS signature verify (<code>validateNCAs</code>)</li>
+            <li>Stream to placeholder via <code>NcaWriter</code></li>
+            <li><code>Register</code> placeholder → final NCA id</li>
+            <li>Delete placeholder; rollback on error</li>
+          </ol>
+          <p class="source-ref"><code>nsp.cpp</code>, <code>install_nsp.cpp</code>, <code>http_nsp.cpp</code>, <code>buffered_placeholder_writer.cpp</code></p>
+        </section>
+
+        <section class="doc-section" id="xci">
+          <h2>XCI / XCZ - HFS0 container</h2>
+          <ul>
+            <li>Root HFS0 at offset <code>0xF000</code> or <code>0x10000</code>, magic <code>HFS0</code> (0x30534648)</li>
+            <li><code>secure</code> partition holds NCAs, tickets, certs</li>
+            <li>Same Prepare/Begin flow as NSP but reads HFS0 entries</li>
+          </ul>
+          <h3>Streaming differences</h3>
+          <ul>
+            <li>HTTP XCI: 4 MB chunks, <code>NcaWriter</code> direct (no ring buffer) - <code>http_xci.cpp</code></li>
+            <li>SD/USB XCI: same as local NSP pattern via <code>sdmc_xci.cpp</code></li>
+          </ul>
+          <p class="source-ref"><code>xci.cpp</code>, <code>install_xci.cpp</code>, <code>http_xci.cpp</code></p>
+        </section>
+
+        <section class="doc-section" id="ncz">
+          <h2>NCZ decompression (.nsz / .xcz inner NCAs)</h2>
+          <p>Handled inside <code>NcaWriter</code> / <code>nca_writer.cpp</code> while streaming:</p>
+          <div class="table-wrap">
+            <table class="doc-table">
+              <thead><tr><th>Magic</th><th>Format</th></tr></thead>
+              <tbody>
+                <tr><td><code>NCZSECTN</code></td><td>Sectioned NCZ - ZSTD or NCZBLOCK per section</td></tr>
+                <tr><td><code>NCZBLOCK</code></td><td>Block-compressed ZSTD stream</td></tr>
+                <tr><td><code>0xFD2FB528</code></td><td>Raw ZSTD stream</td></tr>
+                <tr><td>(none)</td><td>Plain NCA - direct body write</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>After decompress, section data is re-encrypted (AES-128-CTR) and written to the NCM placeholder in 8 MB flushes.</p>
+          <p class="source-ref"><code>nca_writer.cpp</code></p>
+        </section>
+
+        <section class="doc-section" id="ncm">
+          <h2>NCM placeholder API</h2>
+          <p>Wrapper around Switch <code>ncmContentStorage*</code> in <code>ncm.cpp</code>:</p>
+          <div class="table-wrap">
+            <table class="doc-table">
+              <thead><tr><th>Method</th><th>API</th></tr></thead>
+              <tbody>
+                <tr><td><code>CreatePlaceholder</code></td><td><code>ncmContentStorageCreatePlaceHolder</code></td></tr>
+                <tr><td><code>WritePlaceholder</code></td><td><code>ncmContentStorageWritePlaceHolder</code></td></tr>
+                <tr><td><code>Register</code></td><td><code>ncmContentStorageRegister</code> - finalize NCA</td></tr>
+                <tr><td><code>DeletePlaceholder</code></td><td>Cleanup incomplete install</td></tr>
+                <tr><td>Content meta</td><td><code>ncmContentMetaDatabase</code> Set + Commit</td></tr>
+                <tr><td>Application</td><td><code>nsPushApplicationRecord</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="source-ref"><code>ncm.cpp</code>, <code>nx/ncm.cpp</code></p>
+        </section>
+
+        <section class="doc-section" id="verify">
+          <h2>NCA signature verification</h2>
+          <p>When <code>validateNCAs</code> is true (default in config):</p>
+          <ul>
+            <li>Decrypt NCA header (AES-XTS with <code>headerKey</code>)</li>
+            <li>Check magic <code>NCA3</code></li>
+            <li>RSA-2048-PSS verify first 0x200 bytes of header</li>
+            <li>On failure: warning dialog - user can abort or continue</li>
+          </ul>
+          <p class="source-ref"><code>install_nsp.cpp</code>, <code>optionsPage.cpp</code> (<code>validateNCAs</code>)</p>
+        </section>
+
+        <section class="doc-section" id="shop-xci">
+          <h2>Shop XCI - special HTTP stream</h2>
+          <p>Shop XCI items bypass the generic <code>XCIInstallTask</code> and use <code>InstallXciHttpStream</code> in <code>shopInstall.cpp</code>:</p>
+          <ul>
+            <li>Detect XCI: extension <code>.xci/.xcz</code> or HFS0 magic at 0xF000/0x10000</li>
+            <li>Parse HFS0 via HTTP range with 16 MB read-ahead cache</li>
+            <li>Write NCAs through <code>NcaWriter</code>, commit CNMT incrementally</li>
+            <li>Import tickets at end - single continuous HTTP connection</li>
+          </ul>
+          <p>NSP/NSZ shop items use standard <code>HTTPNSP</code> + <code>NSPInstall</code>.</p>
+          <p class="source-ref"><code>shopInstall.cpp</code> - <code>installTitleShop</code>, <code>InstallXciHttpStream</code></p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-row">
+        <span>CyberFoil · luketanti</span>
+        <div>
+          <a href="https://github.com/luketanti/CyberFoil" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://github.com/luketanti/CyberFoil/releases" target="_blank" rel="noopener">Releases</a>
+        </div>
+      </div>
+    </footer>
+
+  </body>
+</html>
