@@ -1,0 +1,89 @@
+.doc-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.875rem;
+}
+
+.doc-toc a { color: var(--text-muted); text-decoration: none; }
+.doc-toc a:hover { color: var(--link); text-decoration: underline; }
+
+.doc-list {
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+}
+
+.doc-list li + li { margin-top: 0.35rem; }
+
+.doc-muted {
+  font-size: 0.875rem;
+  color: var(--text-faint);
+}
+
+.doc-section {
+  margin-bottom: 2.25rem;
+}
+
+.doc-section h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.doc-section h3 {
+  margin: 1.25rem 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.doc-section ul {
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+}
+
+.doc-section li + li { margin-top: 0.25rem; }
+
+.table-wrap {
+  overflow-x: auto;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.doc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.doc-table th,
+.doc-table td {
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.doc-table th {
+  background: var(--bg-subtle);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.doc-table td { color: var(--text-muted); }
+.doc-table tr:last-child td { border-bottom: none; }
+.doc-table code { font-size: 0.85em; }
+
+.source-ref {
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+}
+
+.source-ref code { font-size: 0.95em; }

@@ -1,0 +1,55 @@
+<!-- @page
+title: Guide - CyberFoil
+description: How to install and run CyberFoil on your Nintendo Switch.
+nav: guide
+-->
+<main id="main" class="page">
+  <div class="wrap wrap--narrow">
+    <header class="page-head">
+      <h1>Installation guide</h1>
+      <p>Assumes you already have homebrew set up (Atmosphere or similar).</p>
+    </header>
+
+    <ol class="steps">
+      <li>
+        <h2>Get the files</h2>
+        <p>
+          Download <code>cyberfoil.zip</code> from
+          <a href="https://github.com/luketanti/CyberFoil/releases/latest" target="_blank" rel="noopener">GitHub releases</a>.
+          Extract it - you want <code>switch/CyberFoil/cyberfoil.nro</code>.
+        </p>
+      </li>
+      <li>
+        <h2>Copy to SD</h2>
+        <p>
+          Put the whole <code>CyberFoil</code> folder under <code>switch/</code> on your SD card:
+          <code>sdmc:/switch/CyberFoil/cyberfoil.nro</code>
+        </p>
+      </li>
+      <li>
+        <h2>Launch</h2>
+        <p>
+          Open the homebrew menu (hold <kbd>R</kbd> on a game, or your usual method) and run CyberFoil.
+          Applet mode works but full memory mode is recommended if you hit issues.
+        </p>
+      </li>
+      <li>
+        <h2>Install something</h2>
+        <p>
+          Pick a source on the main grid - SD card is the simplest to start with.
+          Select files, press <kbd>+</kbd>, choose SD or internal storage, wait.
+        </p>
+      </li>
+    </ol>
+
+    <div class="note">
+      <strong>Shop server:</strong>
+      Set URL in Settings (e.g. <code>http://192.168.1.2:8465</code>) or save profiles under <code>shops/</code>.
+      See the <a href="shop.html">Shop API</a> page for what your server must return.
+    </div>
+    <div class="note">
+      <strong>Save backup:</strong>
+      Uploads all saves for one user to the shop server with a required note. Needs AeroFoil-compatible <code>/api/saves/*</code> endpoints (disabled in Tinfoil/legacy mode).
+    </div>
+  </div>
+</main>

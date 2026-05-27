@@ -1,0 +1,53 @@
+<!-- @page
+title: Features - CyberFoil
+description: CyberFoil install sources - SD, network, eShop, USB, MTP, HDD, save backup.
+nav: features
+-->
+<main id="main" class="page">
+  <div class="wrap wrap--narrow">
+    <header class="page-head">
+      <h1>Install sources</h1>
+      <p>The main menu is a grid - pick where your files come from. Same install flow for all of them.</p>
+    </header>
+
+    <ul class="source-list">
+      <li>
+        <h2>SD card</h2>
+        <p>Copy NSP, NSZ, XCI, or XCZ to your microSD, browse, select, press <kbd>+</kbd> to install. Can delete originals after.</p>
+      </li>
+      <li>
+        <h2>LAN / Internet</h2>
+        <p>TCP listener on port <code>2000</code> while net install is open. NS-USBloader (Tinfoil mode), direct URL, or Google Drive file ID. Switch IP shown on screen.</p>
+      </li>
+      <li>
+        <h2>eShop</h2>
+        <p>HTTP shop on a LAN or internet server (port 8465 by default). Sections, local search, update/DLC prompts, icon cache. <a href="shop.html">API reference</a>.</p>
+      </li>
+      <li>
+        <h2>USB (NS-USBloader)</h2>
+        <p>Install over USB from a PC. Works, but can be finicky depending on your setup - LAN is often easier.</p>
+      </li>
+      <li>
+        <h2>USB SSD / HDD</h2>
+        <p>Plug in an external drive. FAT, NTFS, and EXT via libusbhsfs. Same file picker as SD.</p>
+      </li>
+      <li>
+        <h2>MTP</h2>
+        <p>PC sees an MTP folder over USB. Drop files there, they install. Pick SD or internal storage as target first.</p>
+      </li>
+      <li>
+        <h2>Save backup</h2>
+        <p>Upload all local saves for one user to your shop server, with a version note. Needs a compatible AeroFoil backend.</p>
+      </li>
+      <li>
+        <h2>Offline DB</h2>
+        <p>Title names and icons from <code>offline_db/</code> on the SD card. Auto-check against CyberFoil-DB manifest on startup when online.</p>
+      </li>
+      <li>
+        <h2>Settings</h2>
+        <p>NCA verification, boost mode, language, shop profiles, Tinfoil mode, offline DB updates, auto-update - main grid → Settings.</p>
+      </li>
+    </ul>
+    <p class="source-ref">Technical: <a href="network.html">how data is downloaded</a> · <a href="install.html">how NSP/XCI are installed</a> · <a href="shop.html">shop server API</a></p>
+  </div>
+</main>

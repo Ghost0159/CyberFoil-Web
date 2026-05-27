@@ -1,0 +1,100 @@
+<!-- @page
+title: Network & Download - CyberFoil
+description: CyberFoil connection modes, URL types, and HTTP download behaviour.
+nav: network
+-->
+    <main id="main" class="page">
+      <div class="wrap wrap--doc">
+        <header class="page-head">
+          <h1>Network &amp; download</h1>
+          <p>How CyberFoil moves bytes from a source to the installer. NSP/XCI parsing: <a href="install.html">Install pipeline</a>. Shop HTTP API: <a href="shop.html">Shop</a>.</p>
+        </header>
+
+        <nav class="doc-toc" aria-label="On this page">
+          <a href="#modes">Connection modes</a>
+          <a href="#urls">URL types</a>
+          <a href="#http">HTTP download</a>
+          <a href="#lan">LAN protocol</a>
+          <a href="#usb">USB protocol</a>
+          <a href="#local">Local &amp; MTP</a>
+        </nav>
+
+        <section class="doc-section" id="modes">
+          <h2>Connection modes</h2>
+          <div class="table-wrap">
+            <table class="doc-table">
+              <thead>
+                <tr><th>UI source</th><th>Transport</th><th>Reader</th><th>Source</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>LAN install</td><td>TCP :2000 then HTTP range</td><td><code>HTTPNSP</code> / <code>HTTPXCI</code></td><td><code>netInstall.cpp</code></td></tr>
+                <tr><td>URL / Google Drive</td><td>HTTP(S) range</td><td><code>HTTPNSP</code> / <code>HTTPXCI</code></td><td><code>netInstPage.cpp</code></td></tr>
+                <tr><td>eShop</td><td>HTTP(S) + shop auth</td><td><code>HTTPNSP</code> / shop XCI stream</td><td><code>shopInstall.cpp</code></td></tr>
+                <tr><td>SD card</td><td>Local file</td><td><code>SDMCNSP</code> / <code>SDMCXCI</code></td><td><code>sdInstall.cpp</code></td></tr>
+                <tr><td>USB HDD</td><td>USB volume file</td><td><code>SDMCNSP</code> / <code>SDMCXCI</code></td><td><code>hddInstall.cpp</code></td></tr>
+                <tr><td>NS-USBloader</td><td>USB bulk TUC0/TUL0</td><td><code>USBNSP</code> / <code>USBXCI</code></td><td><code>usbInstall.cpp</code></td></tr>
+                <tr><td>MTP</td><td>Push to <code>install/</code></td><td><code>MtpNspStream</code></td><td><code>mtp_install.cpp</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="source-ref">Target storage: <code>0</code> = SD (<code>NcmStorageId_SdCard</code>), else internal (<code>NcmStorageId_BuiltInUser</code>).</p>
+        </section>
+
+        <section class="doc-section" id="urls">
+          <h2>URL &amp; path types</h2>
+          <div class="table-wrap">
+            <table class="doc-table">
+              <thead><tr><th>Kind</th><th>Example</th><th>Handling</th></tr></thead>
+              <tbody>
+                <tr><td>HTTP(S) direct</td><td><code>https://host/a.nsp</code></td><td>curl Range, expect 206</td></tr>
+                <tr><td>Name fragment</td><td><code>url#Display%20Name</code></td><td>Fragment = label only</td></tr>
+                <tr><td>Google Drive</td><td>File ID (keyboard)</td><td><code>drive/v3/files/{id}?key=…&amp;alt=media</code></td></tr>
+                <tr><td>Shop relative</td><td><code>/files/x.nsp</code></td><td>Joined to shop base URL</td></tr>
+                <tr><td>JBOD</td><td><code>jbod:{chunk}/{url}/…</code></td><td>Virtual multi-URL file</td></tr>
+                <tr><td>Local path</td><td>SD / USB filesystem</td><td>No HTTP</td></tr>
+                <tr><td>LAN list</td><td>URLs over TCP :2000</td><td>Newline-separated</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="source-ref"><code>network_util.cpp</code>, <code>util/util.cpp</code>, <code>shopInstall.cpp</code></p>
+        </section>
+
+        <section class="doc-section" id="http">
+          <h2>HTTP streaming download</h2>
+          <p>Remote installs stream into NCM placeholders - the full file is not saved to SD first.</p>
+          <ul>
+            <li><code>Range: offset-(offset+size-1)</code> → HTTP <strong>206</strong></li>
+            <li><code>Accept-Encoding: identity</code></li>
+            <li>3 retries / segment, 2 s delay; user retry dialog after exhaustion</li>
+            <li>NSP vs XCI: bytes 0x100-0x103 == <code>HEAD</code> → XCI, else NSP</li>
+          </ul>
+          <p>Install requests may add Tinfoil headers (<code>Theme</code>, <code>UID</code>, <code>HAUTH</code>, <code>UAUTH</code>, …) plus HTTP Basic when configured.</p>
+          <p class="source-ref"><code>network_util.cpp</code>, <code>curl.cpp</code>, <code>netInstall.cpp</code></p>
+        </section>
+
+        <section class="doc-section" id="lan">
+          <h2>LAN protocol - port 2000</h2>
+          <ol class="doc-list">
+            <li>Client → <code>&lt;switch-ip&gt;:2000</code></li>
+            <li>Receive <code>u32</code> size, then payload (newline-separated URLs, max ~262 KB)</li>
+            <li>Each URL installed via HTTP range</li>
+            <li>Done: 1-byte <code>0x00</code> ack + HTTP DROP to host</li>
+          </ol>
+          <p><kbd>Y</kbd> on net screen: manual URL or Google Drive ID.</p>
+          <p class="source-ref"><code>netInstall.cpp</code> - <code>REMOTE_INSTALL_PORT = 2000</code></p>
+        </section>
+
+        <section class="doc-section" id="usb">
+          <h2>USB protocol</h2>
+          <p><strong>TUL0</strong> - title list (magic 0x304C5554). <strong>TUC0</strong> - file range commands, 8 MB bulk reads.</p>
+          <p>XCI if title name ends with <code>xc</code>.</p>
+          <p class="source-ref"><code>usb_util.cpp</code>, <code>usbInstall.cpp</code></p>
+        </section>
+
+        <section class="doc-section" id="local">
+          <h2>Local &amp; MTP</h2>
+          <p>Extensions <code>.nsp .nsz .xci .xcz</code>. SD/HDD: 4 MB sequential reads. MTP: incremental parse on upload to <code>install/</code>.</p>
+          <p class="source-ref"><code>sdInstall.cpp</code>, <code>mtp_install.cpp</code></p>
+        </section>
+      </div>
+    </main>
