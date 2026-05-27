@@ -8,6 +8,7 @@ export const SITE = {
   version: '1.4.4',
   tagline: 'Nintendo Switch homebrew installer.',
   url: `https://${DOMAIN}`,
+  ogImage: '/icon.jpg',
 };
 
 export const LINKS = {

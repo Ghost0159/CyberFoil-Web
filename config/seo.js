@@ -20,7 +20,7 @@ export function absoluteUrl(path) {
 
 export function renderSeoHead({ title, description, path, noindex }) {
   const canonical = absoluteUrl(path);
-  const image = `${SITE.url}/logo.png`;
+  const image = `${SITE.url}${SITE.ogImage}`;
   const robots = noindex ? 'noindex, nofollow' : 'index, follow';
   const safeTitle = escapeHtml(title);
   const safeDesc = escapeHtml(description);
