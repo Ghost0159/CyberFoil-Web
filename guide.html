@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="How to install and run CyberFoil on your Nintendo Switch." />
+    <meta name="view-transition" content="same-origin" />
+    <meta name="description" content="Put CyberFoil on your Nintendo Switch and run your first install." />
     <link rel="icon" type="image/jpeg" href="/icon.jpg" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <title>Guide - CyberFoil</title>
@@ -15,14 +16,14 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="CyberFoil" />
     <meta property="og:title" content="Guide - CyberFoil" />
-    <meta property="og:description" content="How to install and run CyberFoil on your Nintendo Switch." />
+    <meta property="og:description" content="Put CyberFoil on your Nintendo Switch and run your first install." />
     <meta property="og:url" content="https://cyberfoil.foo/guide.html" />
     <meta property="og:image" content="https://cyberfoil.foo/icon.jpg" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Guide - CyberFoil" />
-    <meta name="twitter:description" content="How to install and run CyberFoil on your Nintendo Switch." />
+    <meta name="twitter:description" content="Put CyberFoil on your Nintendo Switch and run your first install." />
     <meta name="twitter:image" content="https://cyberfoil.foo/icon.jpg" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Guide - CyberFoil","description":"How to install and run CyberFoil on your Nintendo Switch.","url":"https://cyberfoil.foo/guide.html","isPartOf":{"@type":"WebSite","name":"CyberFoil","url":"https://cyberfoil.foo"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Guide - CyberFoil","description":"Put CyberFoil on your Nintendo Switch and run your first install.","url":"https://cyberfoil.foo/guide.html","isPartOf":{"@type":"WebSite","name":"CyberFoil","url":"https://cyberfoil.foo"}}</script>
     
     <script>
   (function () {
@@ -30,11 +31,14 @@
     var s = localStorage.getItem(k);
     var t = s === 'light' || s === 'dark' ? s : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     document.documentElement.setAttribute('data-theme', t);
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('is-page-pending');
+    }
   })();
 </script>
 
-    <script type="module" crossorigin src="/assets/main-D1IkRz_H.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/main-CTKkABAA.css">
+    <script type="module" crossorigin src="/assets/main-D2pGiXhI.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/main-BBNYObig.css">
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -44,111 +48,113 @@
         <a class="brand" href="index.html" aria-label="CyberFoil home">
           <img src="/logo.png" alt="CyberFoil" width="480" height="93" />
         </a>
-        <nav class="nav" aria-label="Main">
+        <nav class="site-nav" id="site-nav" aria-label="Main">
           <a class="nav-link" href="index.html">Home</a>
-        <details class="nav-dropdown">
-          <summary class="nav-dropdown-trigger is-active">Start</summary>
+        <a class="nav-link" href="features.html">Features</a>
+        <details class="nav-dropdown is-current">
+          <summary class="nav-dropdown-trigger is-active">Guide</summary>
           <div class="nav-dropdown-panel">
-            <a class="nav-dropdown-link" href="features.html">Features</a>
-            <a class="nav-dropdown-link" href="guide.html" aria-current="page">Guide</a>
+            <a class="nav-dropdown-link" href="guide.html" aria-current="page">Install guide</a>
+            <a class="nav-dropdown-link" href="changelog.html">Changelog</a>
           </div>
         </details>
         <details class="nav-dropdown">
-          <summary class="nav-dropdown-trigger">Reference</summary>
+          <summary class="nav-dropdown-trigger">Docs</summary>
           <div class="nav-dropdown-panel">
-            <a class="nav-dropdown-link" href="docs.html">Docs</a>
-            <a class="nav-dropdown-link" href="shop.html">Shop API</a>
+            <a class="nav-dropdown-link" href="docs.html">Reference</a>
+            <a class="nav-dropdown-link" href="shop.html">Remote API</a>
             <a class="nav-dropdown-link" href="network.html">Network</a>
-            <a class="nav-dropdown-link" href="install.html">Install</a>
+            <a class="nav-dropdown-link" href="install.html">Install pipeline</a>
           </div>
         </details>
         <a class="nav-link" href="credits.html">Credits</a>
+        <a class="nav-download" href="https://github.com/luketanti/CyberFoil/releases/latest" target="_blank" rel="noopener">Download</a>
         </nav>
         <div class="header-tools">
-          <button type="button" class="theme-btn" id="theme-toggle" aria-label="Toggle theme">
+          <button type="button" class="theme-btn" id="theme-toggle" aria-label="Switch to light theme">
             <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg>
             <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           </button>
           <a class="btn-dl" href="https://github.com/luketanti/CyberFoil/releases/latest" target="_blank" rel="noopener">Download</a>
-          <button type="button" class="menu-btn" id="nav-toggle" aria-expanded="false" aria-controls="mobile-nav">
-            <span class="sr-only">Menu</span><span></span><span></span><span></span>
+          <button type="button" class="menu-btn" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+            <span class="menu-btn__box" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </span>
           </button>
         </div>
       </div>
-      <nav class="mobile-nav" id="mobile-nav" hidden>
-        <a class="mobile-nav-link" href="index.html">Home</a>
-        <div class="mobile-nav-group">
-          <p class="mobile-nav-label">Start</p>
-          <a class="mobile-nav-link" href="features.html">Features</a>
-          <a class="mobile-nav-link" href="guide.html" aria-current="page">Guide</a>
-        </div>
-        <div class="mobile-nav-group">
-          <p class="mobile-nav-label">Reference</p>
-          <a class="mobile-nav-link" href="docs.html">Docs</a>
-          <a class="mobile-nav-link" href="shop.html">Shop API</a>
-          <a class="mobile-nav-link" href="network.html">Network</a>
-          <a class="mobile-nav-link" href="install.html">Install</a>
-        </div>
-        <div class="mobile-nav-group mobile-nav-group--trailing">
-          <a class="mobile-nav-link mobile-nav-link--trailing" href="credits.html">Credits</a>
-        </div>
-      </nav>
     </header>
 
     <main id="main" class="page">
-  <div class="wrap wrap--narrow">
+  <div class="wrap wrap--doc doc-shell">
+    <details class="doc-toc-drawer">
+      <summary class="doc-toc-drawer__summary">On this page</summary>
+      <nav class="doc-toc" aria-label="On this page"></nav>
+    </details>
+    <div class="doc-body">
     <header class="page-head">
-      <h1>Installation guide</h1>
-      <p>Assumes you already have homebrew set up (Atmosphere or similar).</p>
+      <h1>Get CyberFoil onto your Switch</h1>
+      <p>If Atmosphere (or another CFW) and the homebrew menu are already there, you are four steps from a first install.</p>
     </header>
 
     <ol class="steps">
       <li>
-        <h2>Get the files</h2>
+        <h2>Grab the zip</h2>
         <p>
           Download <code>cyberfoil.zip</code> from
           <a href="https://github.com/luketanti/CyberFoil/releases/latest" target="_blank" rel="noopener">GitHub releases</a>.
-          Extract it - you want <code>switch/CyberFoil/cyberfoil.nro</code>.
+          Extract it: the file that matters is <code>switch/CyberFoil/cyberfoil.nro</code>.
+          Example themes land in <code>switch/CyberFoil/theme/</code>. They sit quietly until you pick one.
         </p>
       </li>
       <li>
-        <h2>Copy to SD</h2>
+        <h2>Copy it to the SD card</h2>
         <p>
-          Put the whole <code>CyberFoil</code> folder under <code>switch/</code> on your SD card:
-          <code>sdmc:/switch/CyberFoil/cyberfoil.nro</code>
+          Drop the whole <code>CyberFoil</code> folder under <code>switch/</code> so you end up with
+          <code>sdmc:/switch/CyberFoil/cyberfoil.nro</code>.
+          An existing <code>config.json</code>, Remote profiles, and custom offline packs stay put.
         </p>
       </li>
       <li>
-        <h2>Launch</h2>
+        <h2>Launch it</h2>
         <p>
-          Open the homebrew menu (hold <kbd>R</kbd> on a game, or your usual method) and run CyberFoil.
-          Applet mode works but full memory mode is recommended if you hit issues.
+          Open the homebrew menu (hold <kbd>R</kbd> on a game, or whatever you already use) and run CyberFoil.
+          Applet mode works. If something feels tight on memory, switch to full memory mode.
         </p>
       </li>
       <li>
         <h2>Install something</h2>
         <p>
-          Pick a source on the main grid - SD card is the simplest to start with.
+          Pick a source on the main grid: SD card is the friendliest first try.
           Select files, press <kbd>+</kbd>, choose SD or internal storage, wait.
+          The install screen stays interactive: add or drop pending titles, press <kbd>B</kbd> to cancel the rest, or <kbd>X</kbd> to blank the screen.
         </p>
       </li>
     </ol>
 
     <div class="note">
-      <strong>Shop server:</strong>
-      Set URL in Settings (e.g. <code>http://192.168.1.2:8465</code>) or save profiles under <code>shops/</code>.
-      See the <a href="shop.html">Shop API</a> page for what your server must return.
+      <strong>Remote server.</strong>
+      Settings → Remote. Discover AeroFoil hosts on the LAN (UDP <code>8465</code>), or type a LAN address and an optional WAN address.
+      Profiles live under <code>remotes/</code>. Older <code>shops/*.json</code> files migrate on their own.
+      The <a href="shop.html">Remote API</a> page lists what your server has to return.
     </div>
     <div class="note">
-      <strong>Save backup:</strong>
-      Uploads all saves for one user to the shop server with a required note. Needs AeroFoil-compatible <code>/api/saves/*</code> endpoints (disabled in Tinfoil/legacy mode).
+      <strong>Theme.</strong>
+      Settings → System → Theme. Stay on Default, or try a bundled palette (Midnight Blue, OLED Mint, Forest Green, Violet Dusk, Ember Amber, Crimson Night).
+      A Tinfoil theme JSON is not drop-in: reshape it to CyberFoil's schema in the <a href="docs.html#themes">docs</a>.
+    </div>
+    <div class="note">
+      <strong>Saves and cheats.</strong>
+      Save backup uploads every file for one user and asks for a note. Cheats install into Atmosphere's contents folder.
+      Both need an AeroFoil-compatible server, and both stay off in Tinfoil / legacy mode.
+    </div>
     </div>
   </div>
 </main>
 
     <footer class="site-footer">
       <div class="footer-row">
-        <span>CyberFoil · luketanti</span>
+        <span>CyberFoil 1.5.0 · luketanti</span>
         <div>
           <a href="https://github.com/luketanti/CyberFoil" target="_blank" rel="noopener">GitHub</a>
           <a href="https://github.com/luketanti/CyberFoil/releases" target="_blank" rel="noopener">Releases</a>

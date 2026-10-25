@@ -1,0 +1,1 @@
+import{R as o}from"./main-D2pGiXhI.js";function i(){return new URL("index.html","/").href}function c(){const n=document.getElementById("countdown");let t=o;const e=()=>{if(n&&(n.textContent=String(t)),t<=0){window.location.replace(i());return}t-=1,window.setTimeout(e,1e3)};e()}export{c as initNotFoundRedirect};

@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="CyberFoil configuration, file paths, network install, and supported formats." />
+    <meta name="view-transition" content="same-origin" />
+    <meta name="description" content="CyberFoil configuration, file paths, themes, remotes, and install behaviour." />
     <link rel="icon" type="image/jpeg" href="/icon.jpg" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <title>Docs - CyberFoil</title>
@@ -15,14 +16,14 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="CyberFoil" />
     <meta property="og:title" content="Docs - CyberFoil" />
-    <meta property="og:description" content="CyberFoil configuration, file paths, network install, and supported formats." />
+    <meta property="og:description" content="CyberFoil configuration, file paths, themes, remotes, and install behaviour." />
     <meta property="og:url" content="https://cyberfoil.foo/docs.html" />
     <meta property="og:image" content="https://cyberfoil.foo/icon.jpg" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Docs - CyberFoil" />
-    <meta name="twitter:description" content="CyberFoil configuration, file paths, network install, and supported formats." />
+    <meta name="twitter:description" content="CyberFoil configuration, file paths, themes, remotes, and install behaviour." />
     <meta name="twitter:image" content="https://cyberfoil.foo/icon.jpg" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Docs - CyberFoil","description":"CyberFoil configuration, file paths, network install, and supported formats.","url":"https://cyberfoil.foo/docs.html","isPartOf":{"@type":"WebSite","name":"CyberFoil","url":"https://cyberfoil.foo"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Docs - CyberFoil","description":"CyberFoil configuration, file paths, themes, remotes, and install behaviour.","url":"https://cyberfoil.foo/docs.html","isPartOf":{"@type":"WebSite","name":"CyberFoil","url":"https://cyberfoil.foo"}}</script>
     
     <script>
   (function () {
@@ -30,11 +31,14 @@
     var s = localStorage.getItem(k);
     var t = s === 'light' || s === 'dark' ? s : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     document.documentElement.setAttribute('data-theme', t);
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('is-page-pending');
+    }
   })();
 </script>
 
-    <script type="module" crossorigin src="/assets/main-D1IkRz_H.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/main-CTKkABAA.css">
+    <script type="module" crossorigin src="/assets/main-D2pGiXhI.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/main-BBNYObig.css">
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -44,63 +48,54 @@
         <a class="brand" href="index.html" aria-label="CyberFoil home">
           <img src="/logo.png" alt="CyberFoil" width="480" height="93" />
         </a>
-        <nav class="nav" aria-label="Main">
+        <nav class="site-nav" id="site-nav" aria-label="Main">
           <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="features.html">Features</a>
         <details class="nav-dropdown">
-          <summary class="nav-dropdown-trigger">Start</summary>
+          <summary class="nav-dropdown-trigger">Guide</summary>
           <div class="nav-dropdown-panel">
-            <a class="nav-dropdown-link" href="features.html">Features</a>
-            <a class="nav-dropdown-link" href="guide.html">Guide</a>
+            <a class="nav-dropdown-link" href="guide.html">Install guide</a>
+            <a class="nav-dropdown-link" href="changelog.html">Changelog</a>
           </div>
         </details>
-        <details class="nav-dropdown">
-          <summary class="nav-dropdown-trigger is-active">Reference</summary>
+        <details class="nav-dropdown is-current">
+          <summary class="nav-dropdown-trigger is-active">Docs</summary>
           <div class="nav-dropdown-panel">
-            <a class="nav-dropdown-link" href="docs.html" aria-current="page">Docs</a>
-            <a class="nav-dropdown-link" href="shop.html">Shop API</a>
+            <a class="nav-dropdown-link" href="docs.html" aria-current="page">Reference</a>
+            <a class="nav-dropdown-link" href="shop.html">Remote API</a>
             <a class="nav-dropdown-link" href="network.html">Network</a>
-            <a class="nav-dropdown-link" href="install.html">Install</a>
+            <a class="nav-dropdown-link" href="install.html">Install pipeline</a>
           </div>
         </details>
         <a class="nav-link" href="credits.html">Credits</a>
+        <a class="nav-download" href="https://github.com/luketanti/CyberFoil/releases/latest" target="_blank" rel="noopener">Download</a>
         </nav>
         <div class="header-tools">
-          <button type="button" class="theme-btn" id="theme-toggle" aria-label="Toggle theme">
+          <button type="button" class="theme-btn" id="theme-toggle" aria-label="Switch to light theme">
             <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg>
             <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           </button>
           <a class="btn-dl" href="https://github.com/luketanti/CyberFoil/releases/latest" target="_blank" rel="noopener">Download</a>
-          <button type="button" class="menu-btn" id="nav-toggle" aria-expanded="false" aria-controls="mobile-nav">
-            <span class="sr-only">Menu</span><span></span><span></span><span></span>
+          <button type="button" class="menu-btn" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+            <span class="menu-btn__box" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </span>
           </button>
         </div>
       </div>
-      <nav class="mobile-nav" id="mobile-nav" hidden>
-        <a class="mobile-nav-link" href="index.html">Home</a>
-        <div class="mobile-nav-group">
-          <p class="mobile-nav-label">Start</p>
-          <a class="mobile-nav-link" href="features.html">Features</a>
-          <a class="mobile-nav-link" href="guide.html">Guide</a>
-        </div>
-        <div class="mobile-nav-group">
-          <p class="mobile-nav-label">Reference</p>
-          <a class="mobile-nav-link" href="docs.html" aria-current="page">Docs</a>
-          <a class="mobile-nav-link" href="shop.html">Shop API</a>
-          <a class="mobile-nav-link" href="network.html">Network</a>
-          <a class="mobile-nav-link" href="install.html">Install</a>
-        </div>
-        <div class="mobile-nav-group mobile-nav-group--trailing">
-          <a class="mobile-nav-link mobile-nav-link--trailing" href="credits.html">Credits</a>
-        </div>
-      </nav>
     </header>
 
     <main id="main" class="page">
-      <div class="wrap wrap--doc">
+      <div class="wrap wrap--doc doc-shell">
+        <details class="doc-toc-drawer">
+          <summary class="doc-toc-drawer__summary">On this page</summary>
+          <nav class="doc-toc" aria-label="On this page"></nav>
+        </details>
+        <div class="doc-body">
         <header class="page-head">
           <h1>Documentation</h1>
-          <p>Client-side paths, config, and install behaviour. Shop server API is on the <a href="shop.html">Shop</a> page.</p>
-          <p class="doc-muted">Deep dives: <a href="network.html">Network &amp; download</a> · <a href="install.html">Install pipeline</a> · <a href="shop.html">Shop API</a></p>
+          <p>The client-side map: SD paths, <code>config.json</code>, themes, remotes, and what the installer does while a transfer is running. Building or hosting a catalog? Start with the <a href="shop.html">Remote API</a>.</p>
+          <p class="doc-muted">Keep going: <a href="network.html">Network &amp; download</a> · <a href="install.html">Install pipeline</a> · <a href="shop.html">Remote API</a> · <a href="changelog.html">Changelog</a></p>
         </header>
 
         <section class="doc-section" id="formats">
@@ -109,7 +104,7 @@
             <li><code>NSP</code> / <code>NSZ</code> - Nintendo Submission Package (compressed)</li>
             <li><code>XCI</code> / <code>XCZ</code> - cartridge image (compressed)</li>
           </ul>
-          <p>File extension is ignored for network installs - only content matters.</p>
+          <p>On the network, the extension is ignored: CyberFoil looks at the bytes, not the name.</p>
         </section>
 
         <section class="doc-section" id="sd-layout">
@@ -117,30 +112,41 @@
           <pre><code>sdmc:/switch/CyberFoil/
 ├── cyberfoil.nro
 ├── config.json              optional
-├── shops/                   shop profiles (*.json)
-├── shop_icons/              cached shop icons
+├── remotes/                 remote profiles (*.json)
+├── remote_icons/            cached remote icons
+├── theme/                   external themes (*.json or folder/theme.json)
 ├── offline_db/              local title DB + icons
-│   └── offline_db_manifest.json
+│   ├── offline_db_manifest.json
+│   ├── titles.pack / icons.pack
+│   └── custom_titles.pack / custom_icons.pack   optional
 ├── bark.wav / success.wav   optional sounds
-└── offline_db_update.log    update trace log</code></pre>
+└── offline_db_update.log    update trace log
+
+Legacy (migrated on launch):
+├── shops/                   → remotes/
+└── shop_icons/              → remote_icons/</code></pre>
         </section>
 
         <section class="doc-section" id="config">
           <h2>config.json</h2>
-          <p>Written by Settings. Path: <code>sdmc:/switch/CyberFoil/config.json</code></p>
+          <p>Settings writes this file. Path: <code>sdmc:/switch/CyberFoil/config.json</code></p>
           <div class="table-wrap">
             <table class="doc-table">
               <thead><tr><th>Key</th><th>Type</th><th>Description</th></tr></thead>
               <tbody>
-                <tr><td><code>shopUrl</code></td><td>string</td><td>Active shop base URL</td></tr>
-                <tr><td><code>shopUser</code> / <code>shopPass</code></td><td>string</td><td>HTTP Basic auth for shop</td></tr>
+                <tr><td><code>remoteUrl</code></td><td>string</td><td>Active Remote base URL (persisted from the selected profile)</td></tr>
+                <tr><td><code>remoteProfileFile</code></td><td>string</td><td>Active profile filename under <code>remotes/</code></td></tr>
+                <tr><td><code>remoteUser</code> / <code>remotePass</code></td><td>string</td><td>HTTP Basic auth for Remote</td></tr>
                 <tr><td><code>httpUserAgentMode</code></td><td>string</td><td><code>default</code>, <code>chrome</code>, <code>safari</code>, <code>firefox</code>, <code>tinfoil</code>, <code>custom</code></td></tr>
                 <tr><td><code>httpUserAgent</code></td><td>string</td><td>Custom UA when mode is <code>custom</code></td></tr>
-                <tr><td><code>shopHideInstalled</code></td><td>bool</td><td>Filter installed titles in shop</td></tr>
-                <tr><td><code>shopHideInstalledSection</code></td><td>bool</td><td>Hide Installed section</td></tr>
-                <tr><td><code>shopAllBaseOnly</code></td><td>bool</td><td>All section: bases only</td></tr>
-                <tr><td><code>shopLegacyMode</code></td><td>bool</td><td>Tinfoil compatibility</td></tr>
-                <tr><td><code>shopStartGridMode</code></td><td>bool</td><td>Shop opens in grid view</td></tr>
+                <tr><td><code>remoteHideInstalled</code></td><td>bool</td><td>Filter installed titles in Remote</td></tr>
+                <tr><td><code>remoteHideInstalledSection</code></td><td>bool</td><td>Hide Installed section</td></tr>
+                <tr><td><code>remoteHideIncompatibleCheats</code></td><td>bool</td><td>Hide cheats that do not match installed builds</td></tr>
+                <tr><td><code>remoteAllBaseOnly</code></td><td>bool</td><td>All section: bases only</td></tr>
+                <tr><td><code>remoteLegacyMode</code></td><td>bool</td><td>Tinfoil compatibility</td></tr>
+                <tr><td><code>remoteStartGridMode</code></td><td>bool</td><td>Remote opens in grid view</td></tr>
+                <tr><td><code>themeFile</code></td><td>string</td><td>Selected theme path relative to <code>theme/</code>; empty = Default. Missing files still try <code>theme.json</code></td></tr>
+                <tr><td><code>usbHddShowHiddenFiles</code></td><td>bool</td><td>Show hidden USB-drive entries</td></tr>
                 <tr><td><code>lastNetUrl</code></td><td>string</td><td>Last URL used for net install</td></tr>
                 <tr><td><code>offlineDbManifestUrl</code></td><td>string</td><td>Manifest for offline DB updates</td></tr>
                 <tr><td><code>offlineDbAutoCheckOnStartup</code></td><td>bool</td><td>Check DB on launch when online</td></tr>
@@ -157,53 +163,120 @@
               </tbody>
             </table>
           </div>
+          <p class="doc-muted">On launch, <code>shops/</code> and <code>shop_icons/</code> move to <code>remotes/</code> and <code>remote_icons/</code>. Older <code>shop*</code> config keys become <code>remote*</code>.</p>
         </section>
 
-        <section class="doc-section" id="network">
-          <h2>Network install (LAN)</h2>
-          <p>Separate from the HTTP shop API. CyberFoil listens on <strong>TCP port 2000</strong> while the net install screen is open.</p>
-          <ol class="doc-list">
-            <li>Launch <em>Install over LAN or internet</em> - your Switch IP is shown.</li>
-            <li>On PC/phone, use NS-USBloader (Tinfoil mode) or similar: target that IP, send file list.</li>
-            <li>Alternatively pick URL or Google Drive file ID from the menu.</li>
-          </ol>
-          <p>Downloads use the configured User-Agent (<code>cyberfoil</code> by default), not the empty UA from legacy shop mode.</p>
+        <section class="doc-section" id="remotes">
+          <h2>Remote profiles</h2>
+          <p>One JSON file per host, under <code>sdmc:/switch/CyberFoil/remotes/</code>. Settings → Remote can Discover LAN Servers (UDP <code>8465</code>, payload <code>OWNFOIL_DISCOVER</code>).</p>
+          <pre><code>{
+  "remote": {
+    "protocol": "http",
+    "host": "192.168.1.2",
+    "path": "",
+    "port": 8465,
+    "username": "user",
+    "password": "pass",
+    "title": "My LAN remote",
+    "favourite": false,
+    "legacyMode": false,
+    "lanUrl": "http://192.168.1.2:8465",
+    "wanUrl": "https://remote.example.com",
+    "connection": "auto",
+    "uid": ""
+  }
+}</code></pre>
+          <ul>
+            <li><code>connection</code>: <code>auto</code> (LAN first, ~2 s probe), <code>lan</code>, or <code>wan</code></li>
+            <li>WAN URL is always HTTPS. LAN protocol is HTTP or HTTPS. Address fields with no port use HTTP 80 or HTTPS 443; AeroFoil's usual LAN listen port is 8465</li>
+            <li><code>uid</code> from discovery lets a later scan update the same profile. Credentials are never taken from discovery.</li>
+            <li>Auth and catalog errors do not flip LAN ↔ WAN. The chosen endpoint stays fixed until you reopen Remote or refresh the catalog.</li>
+          </ul>
+        </section>
+
+        <section class="doc-section" id="themes">
+          <h2>External themes</h2>
+          <p>
+            Copy <code>.json</code> files into <code>theme/</code>, or a folder such as <code>theme/my-theme/theme.json</code> with images beside it.
+            Settings → System → Theme. <kbd>A</kbd> applies immediately; Default clears <code>themeFile</code> without deleting files.
+          </p>
+          <pre><code>{
+  "version": 1,
+  "enabled": true,
+  "name": "My Theme",
+  "colors": {
+    "background": "#101827",
+    "text": "#EAF2FFFF",
+    "selected_text": "#FFFFFFFF",
+    "accent": "#56A8FFFF",
+    "highlight": "#245F9DCC"
+  },
+  "images": {
+    "background": "background.png",
+    "logo": "banner.png"
+  }
+}</code></pre>
+          <ul>
+            <li>Colors: <code>#RRGGBB</code> or <code>#RRGGBBAA</code>. Roles: <code>background</code>, <code>header</code>, <code>footer</code>, <code>panel</code>, <code>text</code>, <code>selected_text</code>, <code>muted_text</code>, <code>accent</code>, <code>highlight</code>, <code>scrollbar</code>, <code>progress_track</code>.</li>
+            <li>Background 1280×720, banner 480×93. PNG / JPEG / WebP, max 16 MiB and 4096 px per side. JSON max 256 KiB.</li>
+            <li>Image keys match <code>romfs/images/</code> paths. <code>"background": ""</code> disables the background image.</li>
+            <li>Malformed JSON or an unsupported <code>version</code> falls back to Default. Theme apply waits until an active install finishes.</li>
+          </ul>
         </section>
 
         <section class="doc-section" id="offline-db">
           <h2>Offline database</h2>
           <p>
-            Title names and icons under <code>offline_db/</code> - used when shop/network metadata is unavailable.
+            Title names and icons under <code>offline_db/</code> - used when Remote/network metadata is unavailable.
             Default manifest: <a href="https://github.com/luketanti/CyberFoil-DB" target="_blank" rel="noopener">CyberFoil-DB</a> releases.
-            Supports packed or JSON layouts (<code>titles.pack</code>, <code>icons.pack</code>, index files, etc.).
+            Packed or JSON layouts (<code>titles.pack</code>, <code>icons.pack</code>, index files, etc.).
+          </p>
+          <p>
+            Custom packs: put <code>custom_titles.pack</code> and/or <code>custom_icons.pack</code> in the same folder.
+            Same binary format as the defaults; custom IDs win. Restart after replacing them by hand.
+            Generate with <code>python tools/create_custom_packs.py --titles my_titles.json --icons-dir my_icons --output custom_packs</code> (Python 3.8+, Pillow ≥ 9.1 for images).
           </p>
         </section>
 
-        <section class="doc-section" id="network-ref">
-          <h2>Network &amp; install (see also)</h2>
+        <section class="doc-section" id="install-controls">
+          <h2>Install controls</h2>
           <ul>
-            <li><a href="network.html">Connection modes</a> - LAN :2000, HTTP range, USB TUC0, URL types, Google Drive, JBOD</li>
-            <li><a href="install.html">Install pipeline</a> - PFS0/HFS0, NCM placeholders, NCZ/ZSTD, NCA verify</li>
-            <li><a href="shop.html">Shop API</a> - catalog endpoints, save sync, Tinfoil legacy</li>
+            <li>Worker thread does the transfer; the UI polls input and renders on its own.</li>
+            <li>Active-title card + six pending rows. <kbd>↑</kbd>/<kbd>↓</kbd> select, <kbd>←</kbd>/<kbd>→</kbd> page, <kbd>A</kbd> drop a pending title.</li>
+            <li><kbd>Y</kbd> Add titles on Remote and SD/USB (current folder). PC USB / net / MTP batches stay host-controlled.</li>
+            <li><kbd>B</kbd> cancels the active title and remaining queue. Completed titles and their records stay.</li>
+            <li><kbd>X</kbd> blanks the handheld screen. Any input wakes it; wake does not press a control.</li>
           </ul>
+        </section>
+
+        <section class="doc-section" id="network">
+          <h2>Network install (LAN)</h2>
+          <p>Separate from the HTTP Remote API. CyberFoil listens on <strong>TCP port 2000</strong> while the net install screen is open.</p>
+          <ol class="doc-list">
+            <li>Launch <em>Install over LAN or internet</em> - your Switch IP is shown.</li>
+            <li>On PC/phone, use NS-USBloader (Tinfoil mode) or similar: target that IP, send file list.</li>
+            <li>Alternatively pick URL or Google Drive file ID from the menu.</li>
+          </ol>
+          <p>Downloads use the configured User-Agent (<code>cyberfoil</code> by default), not the empty UA from legacy Remote mode.</p>
         </section>
 
         <section class="doc-section" id="build">
           <h2>Build &amp; stack</h2>
           <ul>
             <li>Binary: <code>cyberfoil.nro</code> → release zip <code>switch/CyberFoil/cyberfoil.nro</code></li>
-            <li>Version: <code>1.4.4</code> · Author: luketanti · License: GPL-3.0</li>
+            <li>Version: <code>1.5.0</code> · Author: luketanti · License: GPL-3.0</li>
             <li>UI: <a href="https://github.com/XorTroll/Plutonium" target="_blank" rel="noopener">Plutonium</a></li>
             <li>MTP: libhaze · USB FS: libusbhsfs (FAT/NTFS/EXT)</li>
             <li>Lineage: fork of <a href="https://github.com/Huntereb/Awoo-Installer" target="_blank" rel="noopener">Awoo Installer</a> (Huntereb), maintained as CyberFoil</li>
           </ul>
         </section>
+        </div>
       </div>
     </main>
 
     <footer class="site-footer">
       <div class="footer-row">
-        <span>CyberFoil · luketanti</span>
+        <span>CyberFoil 1.5.0 · luketanti</span>
         <div>
           <a href="https://github.com/luketanti/CyberFoil" target="_blank" rel="noopener">GitHub</a>
           <a href="https://github.com/luketanti/CyberFoil/releases" target="_blank" rel="noopener">Releases</a>

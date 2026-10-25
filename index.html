@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="CyberFoil - Nintendo Switch homebrew installer." />
+    <meta name="view-transition" content="same-origin" />
+    <meta name="description" content="CyberFoil is a Nintendo Switch homebrew installer. NSP, NSZ, XCI, and XCZ from SD, LAN, Remote, USB, or MTP." />
     <link rel="icon" type="image/jpeg" href="/icon.jpg" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <title>CyberFoil</title>
@@ -15,14 +16,14 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="CyberFoil" />
     <meta property="og:title" content="CyberFoil" />
-    <meta property="og:description" content="CyberFoil - Nintendo Switch homebrew installer." />
+    <meta property="og:description" content="CyberFoil is a Nintendo Switch homebrew installer. NSP, NSZ, XCI, and XCZ from SD, LAN, Remote, USB, or MTP." />
     <meta property="og:url" content="https://cyberfoil.foo/" />
     <meta property="og:image" content="https://cyberfoil.foo/icon.jpg" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="CyberFoil" />
-    <meta name="twitter:description" content="CyberFoil - Nintendo Switch homebrew installer." />
+    <meta name="twitter:description" content="CyberFoil is a Nintendo Switch homebrew installer. NSP, NSZ, XCI, and XCZ from SD, LAN, Remote, USB, or MTP." />
     <meta name="twitter:image" content="https://cyberfoil.foo/icon.jpg" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"CyberFoil","url":"https://cyberfoil.foo","description":"Nintendo Switch homebrew installer."},{"@type":"SoftwareApplication","name":"CyberFoil","applicationCategory":"GameApplication","operatingSystem":"Nintendo Switch","description":"CyberFoil - Nintendo Switch homebrew installer.","url":"https://cyberfoil.foo/","downloadUrl":"https://github.com/luketanti/CyberFoil/releases/latest","softwareVersion":"1.4.4","license":"https://www.gnu.org/licenses/gpl-3.0.html","author":{"@type":"Person","name":"luketanti"}}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"CyberFoil","url":"https://cyberfoil.foo","description":"Nintendo Switch homebrew installer."},{"@type":"SoftwareApplication","name":"CyberFoil","applicationCategory":"GameApplication","operatingSystem":"Nintendo Switch","description":"CyberFoil is a Nintendo Switch homebrew installer. NSP, NSZ, XCI, and XCZ from SD, LAN, Remote, USB, or MTP.","url":"https://cyberfoil.foo/","downloadUrl":"https://github.com/luketanti/CyberFoil/releases/latest","softwareVersion":"1.5.0","license":"https://www.gnu.org/licenses/gpl-3.0.html","author":{"@type":"Person","name":"luketanti"}}]}</script>
     
     <script>
   (function () {
@@ -30,11 +31,14 @@
     var s = localStorage.getItem(k);
     var t = s === 'light' || s === 'dark' ? s : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     document.documentElement.setAttribute('data-theme', t);
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('is-page-pending');
+    }
   })();
 </script>
 
-    <script type="module" crossorigin src="/assets/main-D1IkRz_H.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/main-CTKkABAA.css">
+    <script type="module" crossorigin src="/assets/main-D2pGiXhI.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/main-BBNYObig.css">
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -44,83 +48,94 @@
         <a class="brand" href="index.html" aria-label="CyberFoil home">
           <img src="/logo.png" alt="CyberFoil" width="480" height="93" />
         </a>
-        <nav class="nav" aria-label="Main">
+        <nav class="site-nav" id="site-nav" aria-label="Main">
           <a class="nav-link" href="index.html" aria-current="page">Home</a>
+        <a class="nav-link" href="features.html">Features</a>
         <details class="nav-dropdown">
-          <summary class="nav-dropdown-trigger">Start</summary>
+          <summary class="nav-dropdown-trigger">Guide</summary>
           <div class="nav-dropdown-panel">
-            <a class="nav-dropdown-link" href="features.html">Features</a>
-            <a class="nav-dropdown-link" href="guide.html">Guide</a>
+            <a class="nav-dropdown-link" href="guide.html">Install guide</a>
+            <a class="nav-dropdown-link" href="changelog.html">Changelog</a>
           </div>
         </details>
         <details class="nav-dropdown">
-          <summary class="nav-dropdown-trigger">Reference</summary>
+          <summary class="nav-dropdown-trigger">Docs</summary>
           <div class="nav-dropdown-panel">
-            <a class="nav-dropdown-link" href="docs.html">Docs</a>
-            <a class="nav-dropdown-link" href="shop.html">Shop API</a>
+            <a class="nav-dropdown-link" href="docs.html">Reference</a>
+            <a class="nav-dropdown-link" href="shop.html">Remote API</a>
             <a class="nav-dropdown-link" href="network.html">Network</a>
-            <a class="nav-dropdown-link" href="install.html">Install</a>
+            <a class="nav-dropdown-link" href="install.html">Install pipeline</a>
           </div>
         </details>
         <a class="nav-link" href="credits.html">Credits</a>
+        <a class="nav-download" href="https://github.com/luketanti/CyberFoil/releases/latest" target="_blank" rel="noopener">Download</a>
         </nav>
         <div class="header-tools">
-          <button type="button" class="theme-btn" id="theme-toggle" aria-label="Toggle theme">
+          <button type="button" class="theme-btn" id="theme-toggle" aria-label="Switch to light theme">
             <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg>
             <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           </button>
           <a class="btn-dl" href="https://github.com/luketanti/CyberFoil/releases/latest" target="_blank" rel="noopener">Download</a>
-          <button type="button" class="menu-btn" id="nav-toggle" aria-expanded="false" aria-controls="mobile-nav">
-            <span class="sr-only">Menu</span><span></span><span></span><span></span>
+          <button type="button" class="menu-btn" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+            <span class="menu-btn__box" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </span>
           </button>
         </div>
       </div>
-      <nav class="mobile-nav" id="mobile-nav" hidden>
-        <a class="mobile-nav-link" href="index.html" aria-current="page">Home</a>
-        <div class="mobile-nav-group">
-          <p class="mobile-nav-label">Start</p>
-          <a class="mobile-nav-link" href="features.html">Features</a>
-          <a class="mobile-nav-link" href="guide.html">Guide</a>
-        </div>
-        <div class="mobile-nav-group">
-          <p class="mobile-nav-label">Reference</p>
-          <a class="mobile-nav-link" href="docs.html">Docs</a>
-          <a class="mobile-nav-link" href="shop.html">Shop API</a>
-          <a class="mobile-nav-link" href="network.html">Network</a>
-          <a class="mobile-nav-link" href="install.html">Install</a>
-        </div>
-        <div class="mobile-nav-group mobile-nav-group--trailing">
-          <a class="mobile-nav-link mobile-nav-link--trailing" href="credits.html">Credits</a>
-        </div>
-      </nav>
     </header>
 
-    <main id="main">
+    <main id="main" class="home-page">
   <div class="wrap home">
     <div class="home-grid">
       <div class="home-visual">
-        <div class="home-carousel" data-carousel>
+        <div class="screen-frame">
+          <div class="home-carousel" data-carousel>
         <div class="carousel-viewport">
           <figure class="carousel-slide is-active" data-slide="0">
-            <img src="/screenshots/1.jpeg" alt="CyberFoil on Nintendo Switch, screenshot 1" width="1280" height="720" loading="eager" decoding="async" />
+            <button type="button" class="carousel-open" data-index="0" aria-label="View screenshot 1 larger">
+              <img src="/screenshots/0001.jpg" alt="CyberFoil on Nintendo Switch, screenshot 1" width="1280" height="720" loading="eager" decoding="async" />
+            </button>
           </figure>
           <figure class="carousel-slide" data-slide="1">
-            <img src="/screenshots/2.jpeg" alt="CyberFoil on Nintendo Switch, screenshot 2" width="1280" height="720" loading="lazy" decoding="async" />
+            <button type="button" class="carousel-open" data-index="1" aria-label="View screenshot 2 larger">
+              <img src="/screenshots/0002.jpg" alt="CyberFoil on Nintendo Switch, screenshot 2" width="1280" height="720" loading="lazy" decoding="async" />
+            </button>
           </figure>
           <figure class="carousel-slide" data-slide="2">
-            <img src="/screenshots/3.jpeg" alt="CyberFoil on Nintendo Switch, screenshot 3" width="1280" height="720" loading="lazy" decoding="async" />
+            <button type="button" class="carousel-open" data-index="2" aria-label="View screenshot 3 larger">
+              <img src="/screenshots/0003.jpg" alt="CyberFoil on Nintendo Switch, screenshot 3" width="1280" height="720" loading="lazy" decoding="async" />
+            </button>
           </figure>
           <figure class="carousel-slide" data-slide="3">
-            <img src="/screenshots/4.jpeg" alt="CyberFoil on Nintendo Switch, screenshot 4" width="1280" height="720" loading="lazy" decoding="async" />
+            <button type="button" class="carousel-open" data-index="3" aria-label="View screenshot 4 larger">
+              <img src="/screenshots/0004.jpg" alt="CyberFoil on Nintendo Switch, screenshot 4" width="1280" height="720" loading="lazy" decoding="async" />
+            </button>
           </figure>
           <figure class="carousel-slide" data-slide="4">
-            <img src="/screenshots/5.jpeg" alt="CyberFoil on Nintendo Switch, screenshot 5" width="1280" height="720" loading="lazy" decoding="async" />
+            <button type="button" class="carousel-open" data-index="4" aria-label="View screenshot 5 larger">
+              <img src="/screenshots/0005.jpg" alt="CyberFoil on Nintendo Switch, screenshot 5" width="1280" height="720" loading="lazy" decoding="async" />
+            </button>
           </figure>
           <figure class="carousel-slide" data-slide="5">
-            <img src="/screenshots/6.jpeg" alt="CyberFoil on Nintendo Switch, screenshot 6" width="1280" height="720" loading="lazy" decoding="async" />
+            <button type="button" class="carousel-open" data-index="5" aria-label="View screenshot 6 larger">
+              <img src="/screenshots/0006.jpg" alt="CyberFoil on Nintendo Switch, screenshot 6" width="1280" height="720" loading="lazy" decoding="async" />
+            </button>
           </figure>
           <figure class="carousel-slide" data-slide="6">
-            <img src="/screenshots/7.jpeg" alt="CyberFoil on Nintendo Switch, screenshot 7" width="1280" height="720" loading="lazy" decoding="async" />
+            <button type="button" class="carousel-open" data-index="6" aria-label="View screenshot 7 larger">
+              <img src="/screenshots/0007.jpg" alt="CyberFoil on Nintendo Switch, screenshot 7" width="1280" height="720" loading="lazy" decoding="async" />
+            </button>
+          </figure>
+          <figure class="carousel-slide" data-slide="7">
+            <button type="button" class="carousel-open" data-index="7" aria-label="View screenshot 8 larger">
+              <img src="/screenshots/0008.jpg" alt="CyberFoil on Nintendo Switch, screenshot 8" width="1280" height="720" loading="lazy" decoding="async" />
+            </button>
+          </figure>
+          <figure class="carousel-slide" data-slide="8">
+            <button type="button" class="carousel-open" data-index="8" aria-label="View screenshot 9 larger">
+              <img src="/screenshots/0009.jpg" alt="CyberFoil on Nintendo Switch, screenshot 9" width="1280" height="720" loading="lazy" decoding="async" />
+            </button>
           </figure>
         </div>
         <div class="carousel-dots" role="tablist" aria-label="Screenshots">
@@ -131,40 +146,69 @@
           <button type="button" class="carousel-dot" role="tab" aria-selected="false" aria-label="Screenshot 5" data-index="4"></button>
           <button type="button" class="carousel-dot" role="tab" aria-selected="false" aria-label="Screenshot 6" data-index="5"></button>
           <button type="button" class="carousel-dot" role="tab" aria-selected="false" aria-label="Screenshot 7" data-index="6"></button>
+          <button type="button" class="carousel-dot" role="tab" aria-selected="false" aria-label="Screenshot 8" data-index="7"></button>
+          <button type="button" class="carousel-dot" role="tab" aria-selected="false" aria-label="Screenshot 9" data-index="8"></button>
         </div>
       </div>
+        </div>
       </div>
       <div class="home-text">
         <h1>CyberFoil</h1>
         <p class="lead">
-          Switch homebrew installer based on Awoo Installer, extended and maintained as CyberFoil.
-          Install NSP/NSZ/XCI/XCZ from SD, LAN, shop, USB, MTP, or external drives.
-          Save backup when your shop server speaks AeroFoil.
+          Nintendo Switch homebrew installer. NSP, NSZ, XCI, and XCZ from SD, LAN, Remote, USB, or MTP.
+          Themes, custom offline packs, and save or cheat sync when the server speaks AeroFoil.
         </p>
+        <p class="home-reassure">Works with Atmosphere and other custom firmware.</p>
         <div class="home-actions">
-          <a class="btn btn-primary" href="https://github.com/luketanti/CyberFoil/releases/latest" target="_blank" rel="noopener">Download v1.4.4</a>
-          <a class="btn btn-secondary" href="https://github.com/luketanti/CyberFoil" target="_blank" rel="noopener">Source code</a>
+          <a class="btn btn-primary" href="https://github.com/luketanti/CyberFoil/releases/latest" target="_blank" rel="noopener">Download v1.5.0</a>
+          <a class="btn btn-secondary" href="guide.html">Install guide</a>
         </div>
-        <nav class="home-links" aria-label="Site sections">
-          <a href="features.html">Features</a>
-          <a href="guide.html">Guide</a>
-          <a href="shop.html">Shop API</a>
-          <a href="network.html">Network</a>
-          <a href="install.html">Install</a>
-          <a href="docs.html">Docs</a>
+        <nav class="home-links" aria-label="Community">
+          <a href="https://github.com/luketanti/CyberFoil" target="_blank" rel="noopener">Source code</a>
+          <a href="https://discord.gg/gGy7hWxJeP" target="_blank" rel="noopener">Discord</a>
         </nav>
         <p class="home-meta">
-          <a href="https://discord.gg/gGy7hWxJeP" target="_blank" rel="noopener">Discord</a>
-          · GPL-3.0 · Not affiliated with Nintendo
+          <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0</a>
+          · Not affiliated with Nintendo
         </p>
       </div>
     </div>
+
+    <section class="home-explore" aria-labelledby="home-explore-title">
+      <h2 id="home-explore-title" class="home-explore__title">Start here</h2>
+      <div class="home-tiles">
+        <a class="tile" href="guide.html">
+          <h3 class="tile__title">Install guide</h3>
+          <p class="tile__blurb">Zip, SD card, launch, first title. Four steps.</p>
+        </a>
+        <a class="tile" href="features.html">
+          <h3 class="tile__title">Features</h3>
+          <p class="tile__blurb">SD, LAN, Remote, USB, MTP, and the rest of the grid.</p>
+        </a>
+        <a class="tile" href="docs.html">
+          <h3 class="tile__title">Docs</h3>
+          <p class="tile__blurb">SD paths, config.json, themes, remotes.</p>
+        </a>
+        <a class="tile" href="shop.html">
+          <h3 class="tile__title">Remote API</h3>
+          <p class="tile__blurb">Catalog, auth, saves, and cheats.</p>
+        </a>
+        <a class="tile" href="network.html">
+          <h3 class="tile__title">Network</h3>
+          <p class="tile__blurb">HTTP, LAN :2000, USB, MTP.</p>
+        </a>
+        <a class="tile" href="install.html">
+          <h3 class="tile__title">Install pipeline</h3>
+          <p class="tile__blurb">PFS0 / HFS0, NCA write, live queue.</p>
+        </a>
+      </div>
+    </section>
   </div>
 </main>
 
     <footer class="site-footer">
       <div class="footer-row">
-        <span>CyberFoil · luketanti</span>
+        <span>CyberFoil 1.5.0 · luketanti</span>
         <div>
           <a href="https://github.com/luketanti/CyberFoil" target="_blank" rel="noopener">GitHub</a>
           <a href="https://github.com/luketanti/CyberFoil/releases" target="_blank" rel="noopener">Releases</a>
