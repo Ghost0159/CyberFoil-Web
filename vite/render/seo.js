@@ -1,17 +1,11 @@
 import { writeFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { SITE, LINKS } from '../src/config/site.js';
-import { SITEMAP_PAGES } from '../src/config/pages-seo.js';
+import { SITE, LINKS } from '../../src/config/site.js';
+import { SITEMAP_PAGES } from '../../src/config/pages.js';
+import { escapeHtml } from '../lib/escape-html.js';
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-
-function escapeHtml(value) {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/"/g, '&quot;')
-    .replace(/</g, '&lt;');
-}
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 
 export function absoluteUrl(path) {
   if (path === '/') return `${SITE.url}/`;
@@ -68,7 +62,7 @@ export function renderJsonLd({ title, description, path }) {
               url,
               downloadUrl: LINKS.download,
               softwareVersion: SITE.version,
-              license: 'https://www.gnu.org/licenses/gpl-3.0.html',
+              license: LINKS.license,
               author: { '@type': 'Person', name: SITE.author },
             },
           ],

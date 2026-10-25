@@ -1,27 +1,30 @@
 import { readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { THEME_STORAGE_KEY } from '../src/config/site.js';
-import { pathFromPageFile, isNoindexFile } from '../src/config/pages-seo.js';
-import { renderDesktopNav, renderMobileNav } from './nav-render.js';
-import { renderJsonLd, renderSeoHead } from './seo.js';
-import { renderHomeCarousel } from './home-carousel.js';
+import { LINKS, REDIRECT_DELAY_SEC, SITE, THEME_STORAGE_KEY } from '../../src/config/site.js';
+import { pathFromPageFile, isNoindexFile } from '../../src/config/pages.js';
+import { renderNav } from '../render/nav.js';
+import { renderJsonLd, renderSeoHead } from '../render/seo.js';
+import { renderHomeCarousel } from '../render/carousel.js';
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const layout = readFileSync(resolve(root, 'src/components/layout.html'), 'utf8');
-const themeInit = readFileSync(resolve(root, 'src/components/theme-init.html'), 'utf8');
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
+const layoutPath = resolve(root, 'src/components/layout.html');
+const themeInitPath = resolve(root, 'src/components/theme-init.html');
 
 const PAGE_META_RE = /<!--\s*@page\s+([\s\S]*?)\s*-->/;
 const SITE_FALLBACK_DESC = 'CyberFoil - Nintendo Switch homebrew installer.';
-const REDIRECT_DELAY_SEC = 10;
 
-function homeHref() {
-  return '/index.html';
+function readLayout() {
+  return readFileSync(layoutPath, 'utf8');
+}
+
+function readThemeInit() {
+  return readFileSync(themeInitPath, 'utf8');
 }
 
 function headExtraForPage(filename) {
   if (!filename.includes('404.html')) return '';
-  return `<meta http-equiv="refresh" content="${REDIRECT_DELAY_SEC};url=${homeHref()}" />`;
+  return `<meta http-equiv="refresh" content="${REDIRECT_DELAY_SEC};url=/index.html" />`;
 }
 
 function parsePageMeta(html) {
@@ -55,15 +58,23 @@ function applyLayout(html, filename) {
   const carousel = filename.includes('index.html') ? renderHomeCarousel() : '';
   const content = body.replaceAll('{{carousel}}', carousel);
 
-  return layout
+  return readLayout()
     .replaceAll('{{title}}', title)
     .replaceAll('{{description}}', description)
     .replaceAll('{{seoHead}}', seoHead)
     .replaceAll('{{headExtra}}', headExtraForPage(filename))
-    .replaceAll('{{navDesktop}}', renderDesktopNav(activeNav))
-    .replaceAll('{{navMobile}}', renderMobileNav(activeNav))
+    .replaceAll('{{nav}}', renderNav(activeNav))
     .replaceAll('{{content}}', content)
-    .replaceAll('{{themeInit}}', themeInit.replaceAll('{{storageKey}}', THEME_STORAGE_KEY));
+    .replaceAll('{{version}}', SITE.version)
+    .replaceAll('{{downloadUrl}}', LINKS.download)
+    .replaceAll('{{repoUrl}}', LINKS.repo)
+    .replaceAll('{{releasesUrl}}', LINKS.releases)
+    .replaceAll('{{discordUrl}}', LINKS.discord)
+    .replaceAll('{{licenseUrl}}', LINKS.license)
+    .replaceAll('{{offlineDbUrl}}', LINKS.offlineDb)
+    .replaceAll('{{plutoniumUrl}}', LINKS.plutonium)
+    .replaceAll('{{authorUrl}}', LINKS.author)
+    .replaceAll('{{themeInit}}', readThemeInit().replaceAll('{{storageKey}}', THEME_STORAGE_KEY));
 }
 
 export function htmlLayout() {

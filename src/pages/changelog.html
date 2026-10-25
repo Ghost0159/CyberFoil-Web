@@ -1,0 +1,284 @@
+<!-- @page
+title: Changelog - CyberFoil
+description: CyberFoil changelog - every version from 1.3.7 to the current release.
+nav: changelog
+-->
+<main id="main" class="page">
+  <div class="wrap wrap--doc doc-shell" data-toc="h2">
+    <details class="doc-toc-drawer">
+      <summary class="doc-toc-drawer__summary">On this page</summary>
+      <nav class="doc-toc" aria-label="On this page"></nav>
+    </details>
+    <div class="doc-body">
+    <header class="page-head">
+      <h1>Changelog</h1>
+      <p>Every CyberFoil release, newest first. You are looking at <strong>{{version}}</strong>.</p>
+    </header>
+
+    <article class="changelog-release" id="v1-5-0">
+      <header>
+        <h2>1.5.0</h2>
+        <p>13 October 2026</p>
+      </header>
+
+      <h3>Themes</h3>
+      <ul>
+        <li>JSON themes in <code>switch/CyberFoil/theme/</code> - colors, background, banner, and UI icons.</li>
+        <li>Settings → System → Theme applies a palette immediately, with a progress screen while layouts recreate.</li>
+        <li>Default restores the built-in look without deleting files. Selection stored as <code>themeFile</code>.</li>
+        <li>Bundled palettes: Midnight Blue, OLED Mint, Forest Green, Violet Dusk, Ember Amber, Crimson Night.</li>
+        <li>Tinfoil theme JSON needs adapting to CyberFoil schema version 1.</li>
+      </ul>
+
+      <h3>Offline database</h3>
+      <ul>
+        <li>Optional <code>custom_titles.pack</code> and <code>custom_icons.pack</code>. Matching title IDs use the custom entry.</li>
+        <li>Build packs with <code>tools/create_custom_packs.py</code>. Icons are 128×128 WebP (quality 80, method 6).</li>
+        <li>Database updates leave custom packs in place.</li>
+      </ul>
+
+      <h3>USB browsing</h3>
+      <ul>
+        <li>Hidden by default: dot files, macOS <code>._</code> sidecars, <code>$RECYCLE.BIN</code>, <code>System Volume Information</code>.</li>
+        <li><kbd>−</kbd> or Show hidden / Hide hidden toggles visibility. Preference saved in General settings.</li>
+        <li>Hidden entries stay out of Select All and new install selections.</li>
+      </ul>
+
+      <h3>Remote and installs</h3>
+      <ul>
+        <li>Discover AeroFoil servers on the LAN from Remote settings.</li>
+        <li>Separate LAN and Remote addresses, with LAN-first automatic selection or a forced endpoint.</li>
+        <li>Installs run on a worker. The screen shows the active title and pending queue.</li>
+        <li>Add or remove pending titles during Remote and local-file installs.</li>
+        <li><kbd>B</kbd> cancels the active title and the rest of the batch. Completed titles stay.</li>
+        <li><kbd>X</kbd> blanks the screen while the install continues. Any button or touch wakes it.</li>
+      </ul>
+    </article>
+
+    <article class="changelog-release" id="v1-4-6">
+      <header>
+        <h2>1.4.6</h2>
+        <p>18 August 2026</p>
+      </header>
+
+      <h3>New</h3>
+      <ul>
+        <li>AeroFoil cheat manager in Remote: browse, download, install, view, create, edit, delete, and upload.</li>
+        <li>Remote titles grouped by base game, update, and DLC.</li>
+        <li>Remote editor redesigned as a themed modal.</li>
+      </ul>
+
+      <h3>Improvements</h3>
+      <ul>
+        <li>Better compatibility with legacy remotes, including custom headers and nested directory indexes.</li>
+        <li>More robust Remote lists and legacy title loading.</li>
+        <li>Clean shutdown when leaving from the homebrew launcher.</li>
+      </ul>
+
+      <h3>Fixes</h3>
+      <ul>
+        <li>HTTP range failures report a real diagnostic instead of a generic error.</li>
+        <li>Timeouts and retries for stalled network installs.</li>
+        <li>Credentials sent only to the configured server origin.</li>
+        <li>UAUTH generation when a server uses its default port.</li>
+      </ul>
+    </article>
+
+    <article class="changelog-release" id="v1-4-5">
+      <header>
+        <h2>1.4.5</h2>
+        <p>2 June 2026</p>
+      </header>
+
+      <h3>Highlights</h3>
+      <ul>
+        <li>Initial offline JSON database support.</li>
+        <li>Migration from the previous offline-DB folder layout.</li>
+        <li>Docked input: all controller slots, HDMI dock usage fixed.</li>
+        <li>Firmware mismatch note updated.</li>
+      </ul>
+
+      <h3>Fixes</h3>
+      <ul>
+        <li>Save-data fix and locale refresh.</li>
+        <li>Date sorting for legacy connection and DLC sections.</li>
+        <li>Korean language selection text where glyphs were missing.</li>
+        <li>Compilation warnings cleaned up. Install chatter removed.</li>
+      </ul>
+    </article>
+
+    <article class="changelog-release" id="v1-4-4">
+      <header>
+        <h2>1.4.4</h2>
+        <p>18 April 2026</p>
+      </header>
+
+      <h3>Highlights</h3>
+      <ul>
+        <li>Staged shop loading with clearer status and animated feedback.</li>
+        <li>In-memory shop catalog cache - reopening does not re-download unless refresh or config changed.</li>
+        <li>Legacy / Tinfoil shop compatibility and encrypted shop support.</li>
+      </ul>
+
+      <h3>Fixes</h3>
+      <ul>
+        <li>IPC handle exhaustion when installing XCI from shop.</li>
+        <li>Unresponsive buttons in some cases. Input refreshed after the software keyboard closes.</li>
+        <li>MTP completed-install back action. Shop list-mode selection icon.</li>
+      </ul>
+    </article>
+
+    <article class="changelog-release" id="v1-4-3">
+      <header>
+        <h2>1.4.3</h2>
+        <p>8 April 2026</p>
+      </header>
+
+      <h3>Highlights</h3>
+      <ul>
+        <li>NCZ block support for installs.</li>
+        <li>Faster shop loading for large lists. List/grid toggle, refresh, and checkbox state fixes.</li>
+        <li>Browse sorting. Search and sort controls split.</li>
+        <li>Held-navigation feedback. Image-fetch status visibility.</li>
+      </ul>
+
+      <h3>Networking</h3>
+      <ul>
+        <li>UAUTH generation updated to the current auth spec.</li>
+        <li>Shop path support with config migration. Custom shop ports preserved when editing.</li>
+        <li>Legacy shop cache removed.</li>
+      </ul>
+
+      <h3>Diagnostics</h3>
+      <ul>
+        <li>File-based debug logging and verbose install diagnostics in Options.</li>
+        <li>Writer/flush lifecycle and buffered content-storage writes.</li>
+      </ul>
+    </article>
+
+    <article class="changelog-release" id="v1-4-2">
+      <header>
+        <h2>1.4.2</h2>
+        <p>15 March 2026</p>
+      </header>
+
+      <h3>Shop</h3>
+      <ul>
+        <li>Faster shop startup on consoles with many installed titles.</li>
+        <li>Lazy loading for the Installed section.</li>
+        <li>Non-blocking icon fetch. Offline icons first, then shop icon URL.</li>
+      </ul>
+
+      <h3>Network</h3>
+      <ul>
+        <li>JBOD URL parsing and segmented downloads.</li>
+        <li>HTTP range retry and resume. Basic auth for network downloads.</li>
+        <li>Unified outbound User-Agent. Default remains <code>cyberfoil</code>.</li>
+      </ul>
+
+      <h3>Offline DB and updates</h3>
+      <ul>
+        <li>Faster offline DB updates with buffering and parallel ranged downloads.</li>
+        <li>Fallback to a single stream when ranged downloads are not suitable.</li>
+        <li>In-app changelog viewer on the update prompt, paged for long notes.</li>
+        <li>Install screen dims after inactivity; touch restores brightness.</li>
+      </ul>
+    </article>
+
+    <article class="changelog-release" id="v1-4-1">
+      <header>
+        <h2>1.4.1</h2>
+        <p>17 February 2026</p>
+      </header>
+      <ul>
+        <li>One-press backup of all save data to the server, with a note and clearer progress.</li>
+        <li>Backup user picker: nickname-focused, better long lists, target shop name in the dialog.</li>
+        <li>Shop setting: only show base titles in the All section.</li>
+        <li>Low-latency navigation click sound (<code>click.wav</code>) on list, grid, and menu movement.</li>
+        <li>Held Up/Down in the shop list plays a click on each repeated move.</li>
+        <li>Main-menu grid labels wrap better in long locales. Backup help text formatting fixed.</li>
+        <li>Translations updated for the new settings and backup copy.</li>
+      </ul>
+    </article>
+
+    <article class="changelog-release" id="v1-4-0">
+      <header>
+        <h2>1.4.0</h2>
+        <p>11 February 2026</p>
+      </header>
+      <ul>
+        <li>Offline DB runtime from local <code>titles.pack</code> and <code>icons.pack</code>.</li>
+        <li>Offline DB updater with manifest size/sha256 checks and atomic replace.</li>
+        <li>Startup auto-check option and live download progress on the install screen.</li>
+        <li>Update log at <code>sdmc:/switch/CyberFoil/offline_db_update.log</code>.</li>
+        <li>More stable HTTP transfers for long downloads.</li>
+        <li>Multiple shop profiles.</li>
+      </ul>
+    </article>
+
+    <article class="changelog-release" id="v1-3-11">
+      <header>
+        <h2>1.3.11</h2>
+        <p>9 February 2026</p>
+      </header>
+      <ul>
+        <li>MTP reliability across repeated sessions. Success sound on completion.</li>
+        <li>MTP spinner with MiB/GiB progress. Completion status stays on the install screen.</li>
+        <li>Optional Album drive in MTP mode (off by default). Better Windows Explorer compatibility.</li>
+        <li>Settings tab/list focus and highlighting.</li>
+        <li>Localized main-menu info popup and hint text.</li>
+        <li>Shop grid/list refresh handling. Diacritic-insensitive search.</li>
+        <li>Shop grid refreshes immediately on search. Active search term in the top bar.</li>
+      </ul>
+    </article>
+
+    <article class="changelog-release" id="v1-3-10">
+      <header>
+        <h2>1.3.10</h2>
+        <p>3 February 2026</p>
+      </header>
+      <ul>
+        <li>USB HDD/SSD install in the UI (FAT, NTFS, EXT).</li>
+        <li>Filesystem libraries linked for external drives.</li>
+        <li>Shop UX and HTTP XCI streaming improvements.</li>
+      </ul>
+    </article>
+
+    <article class="changelog-release" id="v1-3-9">
+      <header>
+        <h2>1.3.9</h2>
+        <p>1 February 2026</p>
+      </header>
+      <ul>
+        <li>MTP install re-entry reliability. Success sound when MTP install completes.</li>
+        <li>Tap-to-select on the main menu and settings.</li>
+        <li>eShop grid selection: green highlight and selected overlay.</li>
+      </ul>
+    </article>
+
+    <article class="changelog-release" id="v1-3-8">
+      <header>
+        <h2>1.3.8</h2>
+        <p>27 January 2026</p>
+      </header>
+      <ul>
+        <li>Options to hide installed titles and the Installed section in eShop.</li>
+        <li>Updates and DLC respect whether the base title is installed.</li>
+        <li>MTP server (libhaze) for USB file-drop installs.</li>
+      </ul>
+    </article>
+
+    <article class="changelog-release" id="v1-3-7">
+      <header>
+        <h2>1.3.7</h2>
+        <p>24 January 2026</p>
+      </header>
+      <ul>
+        <li>First CyberFoil build: renamed from Awoo Installer (title, icon, logo, SD paths).</li>
+        <li>Ownfoil-compatible eShop with sections, search, and cover art.</li>
+        <li>OLED mode. Localized UI strings. Success sound added.</li>
+      </ul>
+    </article>
+    </div>
+  </div>
+</main>

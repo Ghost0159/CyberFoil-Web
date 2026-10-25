@@ -1,62 +1,73 @@
 <!-- @page
-title: Shop API - CyberFoil
-description: CyberFoil shop server API - endpoints, JSON formats, auth, save sync.
+title: Remote API - CyberFoil
+description: CyberFoil Remote server API - catalog, auth, save sync, cheats, and LAN discovery.
 nav: shop
 -->
     <main id="main" class="page">
-      <div class="wrap wrap--doc">
+      <div class="wrap wrap--doc doc-shell">
+        <details class="doc-toc-drawer">
+          <summary class="doc-toc-drawer__summary">On this page</summary>
+          <nav class="doc-toc" aria-label="On this page"></nav>
+        </details>
+        <div class="doc-body">
         <header class="page-head">
-          <h1>Shop server API</h1>
+          <h1>Remote server API</h1>
           <p>
-            Reference for running or integrating a shop backend compatible with CyberFoil.
-            Works best with <strong>AeroFoil</strong>. Derived from <code>shopInstall.cpp</code> and <code>save_sync.cpp</code>.
+            Everything a backend needs to speak CyberFoil's Remote protocol. <strong>AeroFoil</strong> is the reference server.
+            If your catalog still lives at <code>/api/shop/sections</code>, that path is accepted when <code>/api/remote/sections</code> is missing.
           </p>
-          <p class="source-ref">See also: <a href="network.html">Network &amp; download</a> · <a href="install.html">Install pipeline</a></p>
+          <p class="source-ref">Related: <a href="network.html">Network &amp; download</a> · <a href="install.html">Install pipeline</a> · <a href="changelog.html">Changelog</a></p>
         </header>
-
-        <nav class="doc-toc" aria-label="On this page">
-          <a href="#connect">Connecting</a>
-          <a href="#fetch-flow">Catalog fetch</a>
-          <a href="#endpoints">Endpoints</a>
-          <a href="#sections-json">Sections JSON</a>
-          <a href="#item-fields">Item fields</a>
-          <a href="#legacy">Legacy / Tinfoil</a>
-          <a href="#headers">Headers &amp; auth</a>
-          <a href="#saves">Save sync</a>
-          <a href="#client-config">Client config</a>
-          <a href="#checklist">Server checklist</a>
-        </nav>
 
         <section class="doc-section" id="connect">
           <h2>Connecting from CyberFoil</h2>
-          <p>Set the shop URL in Settings or save a profile under <code>sdmc:/switch/CyberFoil/shops/</code>.</p>
+          <p>Point Settings at a Remote, or drop a profile under <code>sdmc:/switch/CyberFoil/remotes/</code>. Older <code>shops/*.json</code> files migrate on launch.</p>
           <ul>
             <li><strong>Default HTTP port:</strong> <code>8465</code> (HTTPS defaults to <code>443</code>)</li>
-            <li><strong>Example URL:</strong> <code>http://192.168.1.2:8465</code></li>
-            <li><strong>Auth:</strong> optional HTTP Basic (<code>shopUser</code> / <code>shopPass</code> in config, or per-profile in <code>shops/*.json</code>)</li>
-            <li>Trailing slashes are stripped; bare hostnames get <code>http://</code> prepended</li>
+            <li><strong>Example LAN URL:</strong> <code>http://192.168.1.2:8465</code></li>
+            <li><strong>Auth:</strong> optional HTTP Basic (<code>remoteUser</code> / <code>remotePass</code> in config, or per-profile)</li>
+            <li>Each profile can store <code>lanUrl</code>, <code>wanUrl</code> (HTTPS), and <code>connection</code>: <code>auto</code>, <code>lan</code>, or <code>wan</code></li>
+            <li>Trailing slashes are stripped; bare hostnames get a scheme prepended</li>
           </ul>
-          <p>Shop profile file example:</p>
+          <p>Remote profile file example:</p>
           <pre><code>{
-  "shop": {
+  "remote": {
     "protocol": "http",
     "host": "192.168.1.2",
     "path": "",
     "port": 8465,
     "username": "user",
     "password": "pass",
-    "title": "My LAN shop",
-    "favourite": false
+    "title": "My LAN remote",
+    "favourite": false,
+    "legacyMode": false,
+    "lanUrl": "http://192.168.1.2:8465",
+    "wanUrl": "https://remote.example.com",
+    "connection": "auto",
+    "uid": ""
   }
 }</code></pre>
+        </section>
+
+        <section class="doc-section" id="discover">
+          <h2>LAN discovery</h2>
+          <p>Settings → Remote → Discover LAN Servers. The client broadcasts on UDP <code>8465</code>.</p>
+          <ul>
+            <li>Request payload: <code>OWNFOIL_DISCOVER</code></li>
+            <li>Scan lasts about three seconds. <kbd>B</kbd> cancels, <kbd>X</kbd> scans again. Max 64 replies, 4096 bytes each.</li>
+            <li>Reply fields used by the client: <code>uid</code>, <code>name</code>, <code>version</code>, <code>remote</code> (optional WAN hint), HTTP <code>port</code>, public/private flag. Source IPv4 becomes the LAN address.</li>
+            <li>AeroFoil must enable LAN discovery. Allow UDP 8465. Client isolation, other subnets, and Docker without host networking often block broadcasts.</li>
+            <li>Discovery never writes credentials and does not overwrite an existing WAN URL. A saved <code>uid</code> updates the same profile on the next scan.</li>
+          </ul>
         </section>
 
         <section class="doc-section" id="fetch-flow">
           <h2>How CyberFoil loads a catalog</h2>
           <ol class="doc-list">
-            <li>If <code>shopLegacyMode</code> is on → <strong>GET</strong> shop root only (Tinfoil-style).</li>
-            <li>Otherwise → <strong>GET</strong> <code>/api/shop/sections</code>.</li>
-            <li>On <strong>404</strong> or network failure → fallback to root <strong>GET</strong> (legacy JSON or TINFOIL binary).</li>
+            <li>If <code>remoteLegacyMode</code> is on → <strong>GET</strong> Remote root only (Tinfoil-style).</li>
+            <li>Otherwise → <strong>GET</strong> <code>/api/remote/sections</code>.</li>
+            <li>On <strong>404</strong> or failure → <strong>GET</strong> <code>/api/shop/sections</code>.</li>
+            <li>Still failing → fallback to root <strong>GET</strong> (legacy JSON or TINFOIL binary).</li>
             <li>After load, optional MOTD from root JSON field <code>success</code> (skipped if body is TINFOIL).</li>
             <li>Search is <strong>client-side only</strong> - filters item names in the current section. No search HTTP API.</li>
           </ol>
@@ -71,24 +82,26 @@ nav: shop
                 <tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
               </thead>
               <tbody>
-                <tr><td><code>GET</code></td><td><code>/api/shop/sections</code></td><td>Modern catalog (preferred)</td></tr>
+                <tr><td><code>GET</code></td><td><code>/api/remote/sections</code></td><td>Modern catalog (preferred)</td></tr>
+                <tr><td><code>GET</code></td><td><code>/api/shop/sections</code></td><td>Same shape - used if <code>/api/remote/sections</code> is missing</td></tr>
                 <tr><td><code>GET</code></td><td><code>/</code></td><td>Legacy catalog, MOTD, or TINFOIL payload</td></tr>
-                <tr><td><code>GET</code></td><td><code>/api/shop/icon/{TITLEID}</code></td><td>Icon - 16 hex digits, uppercase (e.g. <code>01007EF00011E000</code>)</td></tr>
-                <tr><td><code>GET</code></td><td><code>{item.url}</code></td><td>Download NSP/NSZ/XCI/XCZ for install</td></tr>
+                <tr><td><code>GET</code></td><td><code>/api/remote/icon/{TITLEID}</code></td><td>Icon - 16 hex digits, uppercase. Falls back to <code>/api/shop/icon/{TITLEID}</code> when that prefix was used</td></tr>
+                <tr><td><code>GET</code></td><td><code>{item.url}</code></td><td>Download NSP/NSZ/XCI/XCZ for install, or cheat text</td></tr>
                 <tr><td><code>GET</code></td><td><code>/api/saves/list</code></td><td>Remote save backups (non-legacy mode)</td></tr>
                 <tr><td><code>POST</code></td><td><code>/api/saves/upload/{TITLEID}</code></td><td>Upload save zip (multipart)</td></tr>
                 <tr><td><code>GET</code></td><td><code>/api/saves/download/{TITLEID}.zip</code></td><td>Download latest save</td></tr>
                 <tr><td><code>GET</code></td><td><code>/api/saves/download/{TITLEID}/{saveId}.zip</code></td><td>Download specific version</td></tr>
                 <tr><td><code>DELETE</code></td><td><code>/api/saves/delete/{TITLEID}</code></td><td>Delete save(s) for title</td></tr>
                 <tr><td><code>DELETE</code></td><td><code>/api/saves/delete/{TITLEID}/{saveId}</code></td><td>Delete one version</td></tr>
+                <tr><td><code>POST</code></td><td><code>/api/cheats</code></td><td>Upload cheat text (AeroFoil admin)</td></tr>
               </tbody>
             </table>
           </div>
-          <p class="doc-muted">Shop fetch: 30s timeout, up to 4 retries on 408/429/5xx. SSL verify is disabled for shop requests.</p>
+          <p class="doc-muted">Remote fetch: 30s timeout, up to 4 retries on 408/429/5xx. SSL verify is disabled for Remote requests.</p>
         </section>
 
         <section class="doc-section" id="sections-json">
-          <h2>Modern response: <code>/api/shop/sections</code></h2>
+          <h2>Modern response: <code>/api/remote/sections</code></h2>
           <p>Content-Type should be JSON. Error object:</p>
           <pre><code>{ "error": "Invalid credentials" }</code></pre>
           <p>Success shape:</p>
@@ -105,7 +118,7 @@ nav: shop
           "title_id": "01007EF00011E000",
           "app_version": 65536,
           "app_type": "base",
-          "icon_url": "/api/shop/icon/01007EF00011E000",
+          "icon_url": "/api/remote/icon/01007EF00011E000",
           "release_date": 20240115
         }
       ]
@@ -113,7 +126,7 @@ nav: shop
   ],
   "success": "Welcome - shown as message of the day"
 }</code></pre>
-          <p>Section <code>id</code> hints used client-side: <code>all</code>, <code>updates</code>/<code>update</code>, <code>dlc</code>, <code>installed</code> (local), <code>saves</code>/<code>save</code>.</p>
+          <p>Section <code>id</code> hints used client-side: <code>all</code>, <code>updates</code>/<code>update</code>, <code>dlc</code>, <code>installed</code> (local), <code>saves</code>/<code>save</code>, <code>cheats</code>.</p>
         </section>
 
         <section class="doc-section" id="item-fields">
@@ -122,27 +135,54 @@ nav: shop
             <table class="doc-table">
               <thead><tr><th>Field</th><th>Aliases</th><th>Notes</th></tr></thead>
               <tbody>
-                <tr><td><code>url</code></td><td>-</td><td>Required. Relative paths resolved against shop base. URL fragment used as display name if <code>name</code> absent.</td></tr>
+                <tr><td><code>url</code></td><td>-</td><td>Required for installs and cheat download. Relative paths resolved against Remote base. URL fragment used as display name if <code>name</code> absent.</td></tr>
                 <tr><td><code>name</code></td><td>-</td><td>Display title</td></tr>
                 <tr><td><code>size</code></td><td>-</td><td>File size in bytes</td></tr>
                 <tr><td><code>title_id</code></td><td>-</td><td>16-char hex or decimal</td></tr>
+                <tr><td><code>app_id</code></td><td>-</td><td>Used to infer title ID / type when <code>title_id</code> is missing</td></tr>
                 <tr><td><code>app_version</code></td><td>-</td><td>Version number</td></tr>
-                <tr><td><code>app_type</code></td><td>-</td><td><code>base</code>, <code>upd</code>/<code>update</code>/<code>patch</code>, <code>dlc</code>/<code>addon</code>, or 0/1/2</td></tr>
-                <tr><td><code>icon_url</code></td><td><code>iconUrl</code></td><td>If omitted and <code>title_id</code> set → auto <code>/api/shop/icon/{ID}</code></td></tr>
+                <tr><td><code>app_type</code></td><td>-</td><td><code>base</code>, <code>upd</code>/<code>update</code>/<code>patch</code>, <code>dlc</code>/<code>addon</code>, <code>CHEAT</code>, or 0/1/2</td></tr>
+                <tr><td><code>icon_url</code></td><td><code>iconUrl</code></td><td>If omitted and <code>title_id</code> set → auto <code>{apiPrefix}/icon/{ID}</code></td></tr>
                 <tr><td><code>release_date</code></td><td><code>releaseDate</code>, <code>date</code></td><td>Integer <code>YYYYMMDD</code></td></tr>
+                <tr><td><code>build_id</code></td><td>-</td><td>Cheat build ID (hex). Required with <code>title_id</code> for cheat rows</td></tr>
               </tbody>
             </table>
           </div>
-          <p>After parsing, CyberFoil may prompt to include related updates and DLC for selected bases.</p>
+          <p>After parsing, CyberFoil may prompt to include related updates and DLC for selected bases. Remote titles are grouped by base / update / DLC.</p>
+        </section>
+
+        <section class="doc-section" id="cheats">
+          <h2>Cheats (AeroFoil)</h2>
+          <p>Catalog rows in a <code>cheats</code> section, or any item with <code>app_type</code> <code>CHEAT</code>, are not NSP/XCI installs. The client requires a valid title ID and build ID.</p>
+          <pre><code>{
+  "id": "cheats",
+  "title": "Cheats",
+  "items": [
+    {
+      "app_type": "CHEAT",
+      "title_id": "01007EF00011E000",
+      "build_id": "ABCDEF0123456789",
+      "title_name": "Example Game",
+      "note": "Infinite health",
+      "url": "/api/cheats/01007EF00011E000/ABCDEF0123456789"
+    }
+  ]
+}</code></pre>
+          <ul>
+            <li>Download: <strong>GET</strong> <code>item.url</code> - raw cheat text. HTTP 404/405 → “this server does not support the cheat download API”.</li>
+            <li>Install path: <code>atmosphere/contents/&lt;titleId&gt;/cheats/&lt;buildId&gt;.txt</code></li>
+            <li>Upload: <strong>POST</strong> <code>/api/cheats</code> multipart <code>title_id</code>, <code>build_id</code>, <code>content</code>, optional <code>note</code>. Needs admin Basic auth. 401/403 = not an admin.</li>
+            <li>Disabled in Tinfoil/legacy mode. <code>remoteHideIncompatibleCheats</code> hides builds that do not match installed titles.</li>
+          </ul>
         </section>
 
         <section class="doc-section" id="legacy">
           <h2>Legacy / Tinfoil mode</h2>
-          <p>Enable <code>shopLegacyMode</code> in Settings (Tinfoil Mode). Changes client behaviour:</p>
+          <p>Enable <code>remoteLegacyMode</code> in Settings (Tinfoil Mode). Changes client behaviour:</p>
           <ul>
-            <li>Only <strong>GET</strong> shop root - no <code>/api/shop/sections</code></li>
+            <li>Only <strong>GET</strong> Remote root - no <code>/api/remote/sections</code></li>
             <li>User-Agent header is <strong>empty</strong></li>
-            <li>Save sync API is <strong>disabled</strong></li>
+            <li>Save sync and cheat APIs are <strong>disabled</strong></li>
             <li>Legacy headers report version <code>20.0.2</code></li>
           </ul>
           <h3>Legacy JSON at root</h3>
@@ -154,7 +194,7 @@ nav: shop
           </ul>
           <p>Per-entry URL keys: <code>url</code>, <code>path</code>, <code>file</code>, <code>download_url</code>, <code>downloadUrl</code>, or a plain string.</p>
           <h3>TINFOIL binary</h3>
-          <p>Body starts with magic <code>TINFOIL</code> (optional BOM/whitespace prefix). May be AES-encrypted and/or zstd/zlib compressed. Decrypts to JSON. Encrypted shops without the required library blob are rejected with an error.</p>
+          <p>Body starts with magic <code>TINFOIL</code> (optional BOM/whitespace prefix). May be AES-encrypted and/or zstd/zlib compressed. Decrypts to JSON. Encrypted remotes without the required library blob are rejected with an error.</p>
           <pre><code>{
   "files": {
     "Game [01007EF00011E000][base]": "/nsp/game.nsp"
@@ -165,8 +205,8 @@ nav: shop
         <section class="doc-section" id="headers">
           <h2>Request headers</h2>
           <h3>HTTP Basic</h3>
-          <p>Standard <code>Authorization: Basic …</code> when username or password is configured.</p>
-          <h3>User-Agent (non-legacy shop fetch)</h3>
+          <p>Standard <code>Authorization: Basic …</code> when username or password is configured. Credentials are sent only to the configured server origin.</p>
+          <h3>User-Agent (non-legacy Remote fetch)</h3>
           <div class="table-wrap">
             <table class="doc-table">
               <thead><tr><th><code>httpUserAgentMode</code></th><th>Sent value</th></tr></thead>
@@ -179,13 +219,13 @@ nav: shop
             </table>
           </div>
           <h3>Tinfoil legacy headers</h3>
-          <p>When legacy auth support is available in the build, shop requests may also send:</p>
+          <p>When legacy auth support is available in the build, Remote requests may also send:</p>
           <ul>
             <li><code>Theme:</code> 64 zero digits</li>
             <li><code>UID:</code> derived from console CID</li>
             <li><code>Version:</code> / <code>Revision:</code> from app version</li>
             <li><code>Language:</code> e.g. <code>en</code>, <code>fr</code></li>
-            <li><code>HAUTH:</code> HMAC-like token from shop URL</li>
+            <li><code>HAUTH:</code> HMAC-like token from Remote URL</li>
             <li><code>UAUTH:</code> token from URL + credentials</li>
           </ul>
           <p>401/403 or HTML login pages are treated as auth failures. Redirect to a URL containing <code>/login</code> fails login.</p>
@@ -193,7 +233,7 @@ nav: shop
 
         <section class="doc-section" id="saves">
           <h2>Save sync (<code>/api/saves/*</code>)</h2>
-          <p>Requires non-legacy shop mode. Uses the same shop URL and Basic auth. Compatible with AeroFoil-style servers.</p>
+          <p>Requires non-legacy Remote mode. Uses the same Remote URL and Basic auth. Compatible with AeroFoil-style servers.</p>
           <h3>List - <code>GET /api/saves/list</code></h3>
           <p>JSON array or <code>{ "saves": [ … ] }</code>:</p>
           <pre><code>{
@@ -229,27 +269,31 @@ nav: shop
             <table class="doc-table">
               <thead><tr><th>Key</th><th>Default</th><th>Effect</th></tr></thead>
               <tbody>
-                <tr><td><code>shopHideInstalled</code></td><td>true</td><td>Hide already-installed titles in shop UI</td></tr>
-                <tr><td><code>shopHideInstalledSection</code></td><td>true</td><td>Hide synthetic Installed section</td></tr>
-                <tr><td><code>shopAllBaseOnly</code></td><td>true</td><td>All section shows bases only</td></tr>
-                <tr><td><code>shopLegacyMode</code></td><td>false</td><td>Tinfoil compatibility mode</td></tr>
-                <tr><td><code>shopStartGridMode</code></td><td>false</td><td>Open shop in grid view</td></tr>
+                <tr><td><code>remoteHideInstalled</code></td><td>true</td><td>Hide already-installed titles in Remote UI</td></tr>
+                <tr><td><code>remoteHideInstalledSection</code></td><td>true</td><td>Hide synthetic Installed section</td></tr>
+                <tr><td><code>remoteHideIncompatibleCheats</code></td><td>false</td><td>Hide cheats that do not match installed builds</td></tr>
+                <tr><td><code>remoteAllBaseOnly</code></td><td>true</td><td>All section shows bases only</td></tr>
+                <tr><td><code>remoteLegacyMode</code></td><td>false</td><td>Tinfoil compatibility mode</td></tr>
+                <tr><td><code>remoteStartGridMode</code></td><td>false</td><td>Open Remote in grid view</td></tr>
               </tbody>
             </table>
           </div>
-          <p>Icon cache: <code>sdmc:/switch/CyberFoil/shop_icons/</code></p>
+          <p>Icon cache: <code>sdmc:/switch/CyberFoil/remote_icons/</code> (legacy <code>shop_icons/</code> is copied on launch).</p>
         </section>
 
         <section class="doc-section" id="checklist">
           <h2>Minimal compatible server</h2>
           <ol class="doc-list">
             <li>Listen on HTTP port <code>8465</code> (or HTTPS <code>443</code>).</li>
-            <li>Implement <code>GET /api/shop/sections</code> returning <code>{ "sections": [ … ] }</code>.</li>
+            <li>Implement <code>GET /api/remote/sections</code> returning <code>{ "sections": [ … ] }</code>. <code>/api/shop/sections</code> remains accepted.</li>
             <li>Serve files at URLs referenced in items; support relative paths.</li>
-            <li>Optional: <code>GET /api/shop/icon/{TITLEID}</code>, root <code>success</code> MOTD string.</li>
+            <li>Optional: <code>GET /api/remote/icon/{TITLEID}</code>, root <code>success</code> MOTD string.</li>
             <li>For saves: implement <code>/api/saves/list|upload|download|delete</code> as above.</li>
-            <li>For old Tinfoil shops: root JSON or TINFOIL binary + legacy headers if encrypted.</li>
+            <li>For cheats: catalog rows plus GET on each cheat URL and optional <code>POST /api/cheats</code>.</li>
+            <li>For LAN discovery: UDP 8465 replies to <code>OWNFOIL_DISCOVER</code>.</li>
+            <li>For old Tinfoil remotes: root JSON or TINFOIL binary + legacy headers if encrypted.</li>
           </ol>
         </section>
+        </div>
       </div>
     </main>

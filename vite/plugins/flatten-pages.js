@@ -1,6 +1,7 @@
 import { existsSync, readdirSync, renameSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 
+/** Moves dist/src/pages/*.html up to dist/ so URLs stay flat. */
 export function flattenPagesOut() {
   return {
     name: 'flatten-pages-out',

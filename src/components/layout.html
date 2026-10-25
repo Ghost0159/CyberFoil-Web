@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="view-transition" content="same-origin" />
     <meta name="description" content="{{description}}" />
     <link rel="icon" type="image/jpeg" href="/icon.jpg" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
@@ -19,33 +20,32 @@
         <a class="brand" href="index.html" aria-label="CyberFoil home">
           <img src="/logo.png" alt="CyberFoil" width="480" height="93" />
         </a>
-        <nav class="nav" aria-label="Main">
-          {{navDesktop}}
+        <nav class="site-nav" id="site-nav" aria-label="Main">
+          {{nav}}
         </nav>
         <div class="header-tools">
-          <button type="button" class="theme-btn" id="theme-toggle" aria-label="Toggle theme">
+          <button type="button" class="theme-btn" id="theme-toggle" aria-label="Switch to light theme">
             <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg>
             <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           </button>
-          <a class="btn-dl" href="https://github.com/luketanti/CyberFoil/releases/latest" target="_blank" rel="noopener">Download</a>
-          <button type="button" class="menu-btn" id="nav-toggle" aria-expanded="false" aria-controls="mobile-nav">
-            <span class="sr-only">Menu</span><span></span><span></span><span></span>
+          <a class="btn-dl" href="{{downloadUrl}}" target="_blank" rel="noopener">Download</a>
+          <button type="button" class="menu-btn" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+            <span class="menu-btn__box" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </span>
           </button>
         </div>
       </div>
-      <nav class="mobile-nav" id="mobile-nav" hidden>
-        {{navMobile}}
-      </nav>
     </header>
 
     {{content}}
 
     <footer class="site-footer">
       <div class="footer-row">
-        <span>CyberFoil · luketanti</span>
+        <span>CyberFoil {{version}} · luketanti</span>
         <div>
-          <a href="https://github.com/luketanti/CyberFoil" target="_blank" rel="noopener">GitHub</a>
-          <a href="https://github.com/luketanti/CyberFoil/releases" target="_blank" rel="noopener">Releases</a>
+          <a href="{{repoUrl}}" target="_blank" rel="noopener">GitHub</a>
+          <a href="{{releasesUrl}}" target="_blank" rel="noopener">Releases</a>
         </div>
       </div>
     </footer>

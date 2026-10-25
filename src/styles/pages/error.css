@@ -28,7 +28,7 @@
 .error-countdown {
   margin: 0 0 1.5rem;
   font-size: 0.875rem;
-  color: var(--text-faint);
+  color: var(--text-muted);
 }
 
 .error-countdown span {

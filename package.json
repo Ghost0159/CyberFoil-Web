@@ -1,7 +1,9 @@
 {
   "name": "cyberfoil-web",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
+  "description": "Official website for CyberFoil, a Nintendo Switch homebrew installer.",
+  "license": "GPL-3.0-or-later",
   "type": "module",
   "scripts": {
     "dev": "vite",

@@ -1,38 +1,66 @@
 <!-- @page
 title: CyberFoil
-description: CyberFoil - Nintendo Switch homebrew installer.
+description: CyberFoil is a Nintendo Switch homebrew installer. NSP, NSZ, XCI, and XCZ from SD, LAN, Remote, USB, or MTP.
 nav: home
 -->
-<main id="main">
+<main id="main" class="home-page">
   <div class="wrap home">
     <div class="home-grid">
       <div class="home-visual">
-        {{carousel}}
+        <div class="screen-frame">
+          {{carousel}}
+        </div>
       </div>
       <div class="home-text">
         <h1>CyberFoil</h1>
         <p class="lead">
-          Switch homebrew installer based on Awoo Installer, extended and maintained as CyberFoil.
-          Install NSP/NSZ/XCI/XCZ from SD, LAN, shop, USB, MTP, or external drives.
-          Save backup when your shop server speaks AeroFoil.
+          Nintendo Switch homebrew installer. NSP, NSZ, XCI, and XCZ from SD, LAN, Remote, USB, or MTP.
+          Themes, custom offline packs, and save or cheat sync when the server speaks AeroFoil.
         </p>
+        <p class="home-reassure">Works with Atmosphere and other custom firmware.</p>
         <div class="home-actions">
-          <a class="btn btn-primary" href="https://github.com/luketanti/CyberFoil/releases/latest" target="_blank" rel="noopener">Download v1.4.4</a>
-          <a class="btn btn-secondary" href="https://github.com/luketanti/CyberFoil" target="_blank" rel="noopener">Source code</a>
+          <a class="btn btn-primary" href="{{downloadUrl}}" target="_blank" rel="noopener">Download v{{version}}</a>
+          <a class="btn btn-secondary" href="guide.html">Install guide</a>
         </div>
-        <nav class="home-links" aria-label="Site sections">
-          <a href="features.html">Features</a>
-          <a href="guide.html">Guide</a>
-          <a href="shop.html">Shop API</a>
-          <a href="network.html">Network</a>
-          <a href="install.html">Install</a>
-          <a href="docs.html">Docs</a>
+        <nav class="home-links" aria-label="Community">
+          <a href="{{repoUrl}}" target="_blank" rel="noopener">Source code</a>
+          <a href="{{discordUrl}}" target="_blank" rel="noopener">Discord</a>
         </nav>
         <p class="home-meta">
-          <a href="https://discord.gg/gGy7hWxJeP" target="_blank" rel="noopener">Discord</a>
-          · GPL-3.0 · Not affiliated with Nintendo
+          <a href="{{licenseUrl}}" target="_blank" rel="noopener">GPL-3.0</a>
+          · Not affiliated with Nintendo
         </p>
       </div>
     </div>
+
+    <section class="home-explore" aria-labelledby="home-explore-title">
+      <h2 id="home-explore-title" class="home-explore__title">Start here</h2>
+      <div class="home-tiles">
+        <a class="tile" href="guide.html">
+          <h3 class="tile__title">Install guide</h3>
+          <p class="tile__blurb">Zip, SD card, launch, first title. Four steps.</p>
+        </a>
+        <a class="tile" href="features.html">
+          <h3 class="tile__title">Features</h3>
+          <p class="tile__blurb">SD, LAN, Remote, USB, MTP, and the rest of the grid.</p>
+        </a>
+        <a class="tile" href="docs.html">
+          <h3 class="tile__title">Docs</h3>
+          <p class="tile__blurb">SD paths, config.json, themes, remotes.</p>
+        </a>
+        <a class="tile" href="shop.html">
+          <h3 class="tile__title">Remote API</h3>
+          <p class="tile__blurb">Catalog, auth, saves, and cheats.</p>
+        </a>
+        <a class="tile" href="network.html">
+          <h3 class="tile__title">Network</h3>
+          <p class="tile__blurb">HTTP, LAN :2000, USB, MTP.</p>
+        </a>
+        <a class="tile" href="install.html">
+          <h3 class="tile__title">Install pipeline</h3>
+          <p class="tile__blurb">PFS0 / HFS0, NCA write, live queue.</p>
+        </a>
+      </div>
+    </section>
   </div>
 </main>

@@ -24,6 +24,11 @@ a {
 
 a:hover { color: var(--accent-hover); }
 
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
 code, pre, kbd {
   font-family: var(--font-mono);
   font-size: 0.9em;
@@ -32,7 +37,7 @@ code, pre, kbd {
 code {
   padding: 0.1em 0.35em;
   background: var(--code-bg);
-  border-radius: 3px;
+  border-radius: var(--radius-xs);
 }
 
 pre {
@@ -41,7 +46,7 @@ pre {
   overflow-x: auto;
   background: var(--code-bg);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   line-height: 1.45;
 }
 
@@ -50,21 +55,13 @@ pre code { padding: 0; background: none; }
 kbd {
   padding: 0.1em 0.4em;
   border: 1px solid var(--border);
-  border-radius: 3px;
+  border-radius: var(--radius-xs);
   background: var(--surface);
 }
 
 ul, ol { margin: 0 0 1rem; padding-left: 1.4rem; }
 p { margin: 0 0 1rem; }
 p:last-child { margin-bottom: 0; }
-
-.sr-only {
-  position: absolute;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0,0,0,0);
-  border: 0;
-}
 
 .skip-link {
   position: absolute;
@@ -74,7 +71,15 @@ p:last-child { margin-bottom: 0; }
   background: var(--accent);
   color: #fff;
   text-decoration: none;
-  border-radius: 3px;
+  border-radius: var(--radius-xs);
 }
 
-.skip-link:focus { top: 0.5rem; }
+.skip-link:focus,
+.skip-link:focus-visible {
+  top: 0.5rem;
+  outline-color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

@@ -1,4 +1,4 @@
-const DELAY_SEC = 10;
+import { REDIRECT_DELAY_SEC } from '../config/site.js';
 
 function homeUrl() {
   return new URL('index.html', import.meta.env.BASE_URL).href;
@@ -6,7 +6,7 @@ function homeUrl() {
 
 export function initNotFoundRedirect() {
   const counter = document.getElementById('countdown');
-  let remaining = DELAY_SEC;
+  let remaining = REDIRECT_DELAY_SEC;
 
   const tick = () => {
     if (counter) counter.textContent = String(remaining);

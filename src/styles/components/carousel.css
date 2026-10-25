@@ -1,10 +1,14 @@
+.screen-frame {
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: var(--radius-sm);
+}
+
 .home-carousel {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid var(--border);
+  height: 100%;
   background: #000;
 }
 
@@ -27,12 +31,183 @@
   pointer-events: auto;
 }
 
+.carousel-open {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: #000;
+  cursor: zoom-in;
+}
+
+.carousel-open:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -3px;
+}
+
 .carousel-slide img {
   display: block;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+body.lightbox-open {
+  overflow: hidden;
+}
+
+.lightbox {
+  width: min(96vw, 72rem);
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.lightbox::backdrop {
+  background: rgba(0, 0, 0, 0.88);
+}
+
+.lightbox__shell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: min(88vh, 46rem);
+}
+
+.lightbox__image {
+  display: block;
+  max-width: 100%;
+  max-height: min(88vh, 46rem);
+  width: auto;
+  height: auto;
   object-fit: contain;
-  object-position: center top;
+  border-radius: var(--radius-sm);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.lightbox__status {
+  position: absolute;
+  bottom: 0.85rem;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+  background: rgba(0, 0, 0, 0.55);
+  color: #ddd;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.lightbox__close,
+.lightbox__nav {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: rgba(20, 20, 20, 0.72);
+  color: #f2f2f2;
+  cursor: pointer;
+}
+
+.lightbox__close:hover,
+.lightbox__nav:hover {
+  background: rgba(40, 40, 40, 0.9);
+}
+
+.lightbox__close:focus-visible,
+.lightbox__nav:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.lightbox__close svg,
+.lightbox__nav svg {
+  width: 18px;
+  height: 18px;
+}
+
+.lightbox__close {
+  top: 0.65rem;
+  right: 0.65rem;
+}
+
+.lightbox__nav--prev { left: 0.65rem; }
+.lightbox__nav--next { right: 0.65rem; }
+
+.lightbox__nav[hidden] { display: none; }
+
+@media (max-width: 767px) {
+  .lightbox {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    margin: 0;
+    background: #000;
+  }
+
+  .lightbox__shell {
+    width: 100%;
+    min-height: 100dvh;
+    height: 100dvh;
+    padding:
+      max(0.75rem, env(safe-area-inset-top))
+      max(0.5rem, env(safe-area-inset-right))
+      max(0.75rem, env(safe-area-inset-bottom))
+      max(0.5rem, env(safe-area-inset-left));
+  }
+
+  .lightbox__image {
+    max-width: 100%;
+    max-height: calc(100dvh - 7rem);
+    border-radius: 0;
+  }
+
+  .lightbox__close,
+  .lightbox__nav {
+    width: 44px;
+    height: 44px;
+  }
+
+  .lightbox__close {
+    top: max(0.5rem, env(safe-area-inset-top));
+    right: max(0.5rem, env(safe-area-inset-right));
+  }
+
+  .lightbox__nav--prev {
+    left: max(0.4rem, env(safe-area-inset-left));
+    bottom: max(0.85rem, env(safe-area-inset-bottom));
+    top: auto;
+  }
+
+  .lightbox__nav--next {
+    right: max(0.4rem, env(safe-area-inset-right));
+    bottom: max(0.85rem, env(safe-area-inset-bottom));
+    top: auto;
+  }
+
+  .lightbox__status {
+    bottom: max(1.15rem, calc(env(safe-area-inset-bottom) + 0.85rem));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox,
+  .lightbox__image { transition: none; }
 }
 
 .carousel-dots {
@@ -44,7 +219,7 @@
   display: flex;
   gap: 0.35rem;
   padding: 0.28rem 0.4rem;
-  border-radius: 999px;
+  border-radius: var(--radius-full);
   background: rgba(0, 0, 0, 0.55);
 }
 
@@ -73,7 +248,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .carousel-slide {
-    transition: none;
-  }
+  .carousel-slide { transition: none; }
 }

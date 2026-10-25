@@ -4,8 +4,24 @@ function systemTheme() {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
+/**
+ * @param {'light' | 'dark'} theme
+ */
+function syncToggleLabel(theme) {
+  const toggle = document.getElementById('theme-toggle');
+  if (!toggle) return;
+  toggle.setAttribute(
+    'aria-label',
+    theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme',
+  );
+}
+
+/**
+ * @param {'light' | 'dark'} theme
+ */
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
+  syncToggleLabel(theme);
 }
 
 function currentTheme() {

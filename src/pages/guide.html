@@ -1,55 +1,71 @@
 <!-- @page
 title: Guide - CyberFoil
-description: How to install and run CyberFoil on your Nintendo Switch.
+description: Put CyberFoil on your Nintendo Switch and run your first install.
 nav: guide
 -->
 <main id="main" class="page">
-  <div class="wrap wrap--narrow">
+  <div class="wrap wrap--doc doc-shell">
+    <details class="doc-toc-drawer">
+      <summary class="doc-toc-drawer__summary">On this page</summary>
+      <nav class="doc-toc" aria-label="On this page"></nav>
+    </details>
+    <div class="doc-body">
     <header class="page-head">
-      <h1>Installation guide</h1>
-      <p>Assumes you already have homebrew set up (Atmosphere or similar).</p>
+      <h1>Get CyberFoil onto your Switch</h1>
+      <p>If Atmosphere (or another CFW) and the homebrew menu are already there, you are four steps from a first install.</p>
     </header>
 
     <ol class="steps">
       <li>
-        <h2>Get the files</h2>
+        <h2>Grab the zip</h2>
         <p>
           Download <code>cyberfoil.zip</code> from
-          <a href="https://github.com/luketanti/CyberFoil/releases/latest" target="_blank" rel="noopener">GitHub releases</a>.
-          Extract it - you want <code>switch/CyberFoil/cyberfoil.nro</code>.
+          <a href="{{downloadUrl}}" target="_blank" rel="noopener">GitHub releases</a>.
+          Extract it: the file that matters is <code>switch/CyberFoil/cyberfoil.nro</code>.
+          Example themes land in <code>switch/CyberFoil/theme/</code>. They sit quietly until you pick one.
         </p>
       </li>
       <li>
-        <h2>Copy to SD</h2>
+        <h2>Copy it to the SD card</h2>
         <p>
-          Put the whole <code>CyberFoil</code> folder under <code>switch/</code> on your SD card:
-          <code>sdmc:/switch/CyberFoil/cyberfoil.nro</code>
+          Drop the whole <code>CyberFoil</code> folder under <code>switch/</code> so you end up with
+          <code>sdmc:/switch/CyberFoil/cyberfoil.nro</code>.
+          An existing <code>config.json</code>, Remote profiles, and custom offline packs stay put.
         </p>
       </li>
       <li>
-        <h2>Launch</h2>
+        <h2>Launch it</h2>
         <p>
-          Open the homebrew menu (hold <kbd>R</kbd> on a game, or your usual method) and run CyberFoil.
-          Applet mode works but full memory mode is recommended if you hit issues.
+          Open the homebrew menu (hold <kbd>R</kbd> on a game, or whatever you already use) and run CyberFoil.
+          Applet mode works. If something feels tight on memory, switch to full memory mode.
         </p>
       </li>
       <li>
         <h2>Install something</h2>
         <p>
-          Pick a source on the main grid - SD card is the simplest to start with.
+          Pick a source on the main grid: SD card is the friendliest first try.
           Select files, press <kbd>+</kbd>, choose SD or internal storage, wait.
+          The install screen stays interactive: add or drop pending titles, press <kbd>B</kbd> to cancel the rest, or <kbd>X</kbd> to blank the screen.
         </p>
       </li>
     </ol>
 
     <div class="note">
-      <strong>Shop server:</strong>
-      Set URL in Settings (e.g. <code>http://192.168.1.2:8465</code>) or save profiles under <code>shops/</code>.
-      See the <a href="shop.html">Shop API</a> page for what your server must return.
+      <strong>Remote server.</strong>
+      Settings → Remote. Discover AeroFoil hosts on the LAN (UDP <code>8465</code>), or type a LAN address and an optional WAN address.
+      Profiles live under <code>remotes/</code>. Older <code>shops/*.json</code> files migrate on their own.
+      The <a href="shop.html">Remote API</a> page lists what your server has to return.
     </div>
     <div class="note">
-      <strong>Save backup:</strong>
-      Uploads all saves for one user to the shop server with a required note. Needs AeroFoil-compatible <code>/api/saves/*</code> endpoints (disabled in Tinfoil/legacy mode).
+      <strong>Theme.</strong>
+      Settings → System → Theme. Stay on Default, or try a bundled palette (Midnight Blue, OLED Mint, Forest Green, Violet Dusk, Ember Amber, Crimson Night).
+      A Tinfoil theme JSON is not drop-in: reshape it to CyberFoil's schema in the <a href="docs.html#themes">docs</a>.
+    </div>
+    <div class="note">
+      <strong>Saves and cheats.</strong>
+      Save backup uploads every file for one user and asks for a note. Cheats install into Atmosphere's contents folder.
+      Both need an AeroFoil-compatible server, and both stay off in Tinfoil / legacy mode.
+    </div>
     </div>
   </div>
 </main>

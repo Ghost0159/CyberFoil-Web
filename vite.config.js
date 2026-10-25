@@ -1,23 +1,12 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'node:path';
-import { htmlLayout } from './config/vite-html-layout.js';
-import { flattenPagesOut } from './config/vite-flatten-pages.js';
-import { devPageRoutes } from './config/vite-dev-routes.js';
-import { viteSeo } from './config/vite-seo.js';
+import { viteInput } from './src/config/pages.js';
+import { htmlLayout } from './vite/plugins/html-layout.js';
+import { flattenPagesOut } from './vite/plugins/flatten-pages.js';
+import { devPageRoutes } from './vite/plugins/dev-routes.js';
+import { viteSeo } from './vite/plugins/seo.js';
 
 const pagesDir = resolve(__dirname, 'src/pages');
-
-const pages = {
-  main: resolve(pagesDir, 'index.html'),
-  features: resolve(pagesDir, 'features.html'),
-  guide: resolve(pagesDir, 'guide.html'),
-  shop: resolve(pagesDir, 'shop.html'),
-  network: resolve(pagesDir, 'network.html'),
-  install: resolve(pagesDir, 'install.html'),
-  docs: resolve(pagesDir, 'docs.html'),
-  credits: resolve(pagesDir, 'credits.html'),
-  notFound: resolve(pagesDir, '404.html'),
-};
 
 export default defineConfig({
   plugins: [htmlLayout(), devPageRoutes(), flattenPagesOut(), viteSeo()],
@@ -27,7 +16,7 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true,
     rollupOptions: {
-      input: pages,
+      input: viteInput(pagesDir),
     },
   },
 });

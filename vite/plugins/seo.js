@@ -1,4 +1,4 @@
-import { writeRobotsTxt, writeSitemap } from './seo.js';
+import { writeRobotsTxt, writeSitemap } from '../render/seo.js';
 
 export function viteSeo() {
   return {

@@ -1,6 +1,7 @@
 const PAGE_RE = /^\/[\w-]+\.html$/;
 const ASSET_RE = /\.\w+$/;
 
+/** Serve src/pages/*.html at flat URLs during `vite` dev. */
 export function devPageRoutes() {
   return {
     name: 'dev-page-routes',

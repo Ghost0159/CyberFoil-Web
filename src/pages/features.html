@@ -1,53 +1,83 @@
 <!-- @page
 title: Features - CyberFoil
-description: CyberFoil install sources - SD, network, eShop, USB, MTP, HDD, save backup.
+description: What CyberFoil can install from: SD, LAN, Remote, USB, MTP, plus themes, cheats, and save backup.
 nav: features
 -->
 <main id="main" class="page">
   <div class="wrap wrap--narrow">
     <header class="page-head">
-      <h1>Install sources</h1>
-      <p>The main menu is a grid - pick where your files come from. Same install flow for all of them.</p>
+      <h1>What CyberFoil can do</h1>
+      <p>Every tile on the main grid is another way to get files onto the Switch. Same install flow, same queue, same destination: pick the source that matches how you already work.</p>
     </header>
 
     <ul class="source-list">
       <li>
         <h2>SD card</h2>
-        <p>Copy NSP, NSZ, XCI, or XCZ to your microSD, browse, select, press <kbd>+</kbd> to install. Can delete originals after.</p>
+        <p>Copy NSP, NSZ, XCI, or XCZ onto the microSD, browse, select, press <kbd>+</kbd>. You can delete the originals after. Mid-batch, you can still add more files from the folder you are in.</p>
       </li>
       <li>
         <h2>LAN / Internet</h2>
-        <p>TCP listener on port <code>2000</code> while net install is open. NS-USBloader (Tinfoil mode), direct URL, or Google Drive file ID. Switch IP shown on screen.</p>
+        <p>While net install is open, CyberFoil listens on TCP port <code>2000</code>. Point NS-USBloader (Tinfoil mode) at the Switch IP on screen, or paste a direct URL / Google Drive file ID.</p>
       </li>
       <li>
-        <h2>eShop</h2>
-        <p>HTTP shop on a LAN or internet server (port 8465 by default). Sections, local search, update/DLC prompts, icon cache. <a href="shop.html">API reference</a>.</p>
+        <h2>Remote</h2>
+        <p>
+          An HTTP catalog on the LAN or over the internet (port 8465 by default). Discover AeroFoil hosts nearby, keep a LAN and a WAN address, and pick Auto / LAN / WAN.
+          Sections, local search, update and DLC prompts, icon cache. The <a href="shop.html">API reference</a> is the full contract.
+        </p>
       </li>
       <li>
         <h2>USB (NS-USBloader)</h2>
-        <p>Install over USB from a PC. Works, but can be finicky depending on your setup - LAN is often easier.</p>
+        <p>Install from a PC over USB. It works, but it can be picky depending on the cable and the host. LAN is often the calmer route.</p>
       </li>
       <li>
         <h2>USB SSD / HDD</h2>
-        <p>Plug in an external drive. FAT, NTFS, and EXT via libusbhsfs. Same file picker as SD.</p>
+        <p>
+          Plug in an external drive. FAT, NTFS, and EXT via libusbhsfs: same picker as the SD card.
+          Dot files, macOS <code>._</code> sidecars, and Windows metadata folders stay hidden unless you press <kbd>−</kbd>.
+        </p>
       </li>
       <li>
         <h2>MTP</h2>
-        <p>PC sees an MTP folder over USB. Drop files there, they install. Pick SD or internal storage as target first.</p>
+        <p>The PC sees an MTP folder over USB. Drop files there and they install. Choose SD or internal storage as the target first.</p>
       </li>
       <li>
         <h2>Save backup</h2>
-        <p>Upload all local saves for one user to your shop server, with a version note. Needs a compatible AeroFoil backend.</p>
+        <p>Upload every local save for one user to your Remote server, with a short note so you can tell versions apart. Needs an AeroFoil-compatible backend.</p>
+      </li>
+      <li>
+        <h2>Cheats</h2>
+        <p>
+          Browse AeroFoil cheat sections, install one build or all of them, then view, edit, delete, or upload the local files.
+          They land in <code>atmosphere/contents/&lt;titleId&gt;/cheats/&lt;buildId&gt;.txt</code>.
+        </p>
       </li>
       <li>
         <h2>Offline DB</h2>
-        <p>Title names and icons from <code>offline_db/</code> on the SD card. Auto-check against CyberFoil-DB manifest on startup when online.</p>
+        <p>
+          Title names and icons live in <code>offline_db/</code> on the SD card. When you are online, CyberFoil can check CyberFoil-DB on startup.
+          Optional <code>custom_titles.pack</code> / <code>custom_icons.pack</code> override matching title IDs and survive those updates.
+        </p>
+      </li>
+      <li>
+        <h2>Themes</h2>
+        <p>
+          JSON palettes in <code>theme/</code>: colors, background, banner, and UI icons. Six examples ship in the zip.
+          Pick one in Settings → System → Theme; it applies immediately, no restart.
+        </p>
+      </li>
+      <li>
+        <h2>Install queue</h2>
+        <p>
+          Transfers run on a worker so the UI stays awake. You see the active title and the pending rows.
+          Add or drop titles mid-batch on Remote and local files. <kbd>B</kbd> cancels the rest; <kbd>X</kbd> blanks the screen.
+        </p>
       </li>
       <li>
         <h2>Settings</h2>
-        <p>NCA verification, boost mode, language, shop profiles, Tinfoil mode, offline DB updates, auto-update - main grid → Settings.</p>
+        <p>NCA verification, boost mode, language, Remote profiles, Tinfoil mode, hidden USB files, offline DB updates, auto-update: all from the main grid → Settings.</p>
       </li>
     </ul>
-    <p class="source-ref">Technical: <a href="network.html">how data is downloaded</a> · <a href="install.html">how NSP/XCI are installed</a> · <a href="shop.html">shop server API</a></p>
+    <p class="source-ref">Go deeper: <a href="network.html">how data is downloaded</a> · <a href="install.html">how NSP/XCI are installed</a> · <a href="shop.html">Remote server API</a> · <a href="changelog.html">Changelog</a></p>
   </div>
 </main>
